@@ -3,11 +3,12 @@
 #include<string.h>
 #include<stdio.h>
 #include<stdlib.h>
+#include<stdbool.h>
 #include<linux/limits.h>
 
 #define PRINT(string) write(1, string, strlen(string));
 
-int pwd() {
+int pwd(int argc, char **argv, bool offset) {
   char cwd[PATH_MAX];
   if (getcwd(cwd, sizeof(cwd)) != NULL) {
     PRINT(cwd);
@@ -18,19 +19,18 @@ int pwd() {
   return 0;
 }
 
-int handler() {
-    PRINT("Handler called");
-    return 0;
+int ls(int argc, char **argv, bool offset) {
+  return 0;
 }
 
 typedef struct {
     char* argument;
-    int (*handler)(void); // function returning int with void arguments
+    int (*handler)(int argc, char **argv, bool offset); // function returning int with void arguments
 } command;
 
 static const command commands[] = {
-    {"a.out", handler},
-    {"pwd", pwd}
+    {"ls", ls},
+    {"pwd", pwd},
 };
 
 constexpr size_t num_commands = sizeof(commands) / sizeof(command);
@@ -42,14 +42,17 @@ int cmp(const void* a, const void* b) {
 }
 
 int main(int argc, char **argv) {
-    command key = {basename(argv[0]), NULL};
+  for (int i = 0; i < 2; i++) {
+    command key = {basename(argv[i]), NULL};
     command *result = bsearch(&key, commands, num_commands, sizeof(command), cmp);
 
     if (result == NULL) {
-        PRINT("Command not found\n");
+      if (i == 1){
+        PRINT("HELP");
+      }
     } else {
-        return result->handler();
+        return result->handler(argc, argv, i);
     }
-
-    return 1;
+  }
+  return 1;
 }
