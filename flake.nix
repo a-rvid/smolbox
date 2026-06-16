@@ -23,10 +23,11 @@
                   gnumake
                   pkg-config
                   # musl
-                  glibc
+                  musl
                ];
 
                shellHook = ''
+                  export LDFLAGS="-L${pkgs.glibc.static}/lib"
                   export CC=clang
                   export CXX=clang++
                '';

@@ -48,7 +48,14 @@ int main(int argc, char **argv) {
 
     if (result == NULL) {
       if (i == 1){
-        PRINT("HELP");
+        char help[512] = {0};
+        help[0] = '[';
+        for (size_t j = 0; j < num_commands; j++) {
+          strncat(help, commands[j].argument, sizeof(help) - strlen(help) -1);
+          strncat(help, " ", sizeof(help) - strlen(help) -1);
+        }
+        help[strlen(help) - 1] = ']';
+        PRINT(help);
       }
     } else {
         return result->handler(argc, argv, i);
