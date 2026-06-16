@@ -4,7 +4,7 @@
 #include<stdio.h>
 #include<stdlib.h>
 #include<stdbool.h>
-#include<linux/limits.h>
+#include<limits.h>
 
 #define PRINT(string) write(1, string, strlen(string));
 
