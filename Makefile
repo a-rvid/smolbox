@@ -1,5 +1,5 @@
 CC?=gcc
-CFLAGS += -Wall -Oz -s -fno-ident -fno-asynchronous-unwind-tables -DNDEBUG
+CFLAGS += -Wall -Oz -s -fno-ident -fno-asynchronous-unwind-tables -DNDEBUG -std=c23
 
 BIN=smolbox
 

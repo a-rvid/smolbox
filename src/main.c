@@ -4,9 +4,9 @@
 #include<stdio.h>
 #include<stdlib.h>
 #include<stdbool.h>
-#include<limits.h>
 
 #define PRINT(string) write(1, string, strlen(string));
+#define PATH_MAX 4096
 
 int pwd(int argc, char **argv, bool offset) {
   char cwd[PATH_MAX];
