@@ -24,7 +24,7 @@ jobs:
                 archive: false
 
           - run: sudo apt update && sudo apt install musl-tools
-          - run: make clean && CFLAGS="-std=c2x" CC=musl-gcc make
+          - run: make clean && STD="-std=c2x" CC=musl-gcc make
           - run: mv smolbox smolbox-musl-x86_64
           - uses: actions/upload-artifact@v7
             with:
@@ -33,7 +33,7 @@ jobs:
                 if-no-files-found: error
                 archive: false
 
-          - run: make clean && CFLAGS="-std=c2x -static" CC=musl-gcc make
+          - run: make clean && STD="-std=c2x -static" CC=musl-gcc make
           - run: mv smolbox smolbox-static-x86_64
           - uses: actions/upload-artifact@v7
             with:
