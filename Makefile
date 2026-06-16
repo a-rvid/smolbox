@@ -12,7 +12,7 @@ smolbox:
 
 install:
 	mkdir -p $(DESTDIR)$(INSTALLDIR)
-	install -m 555 $(BIN) $(DESTDIR)$(INSTALL_DIR)/
+	install -m 555 $(BIN) $(DESTDIR)$(INSTALLDIR)/$(BIN)
 
 build-deb:
 	PREFIX=/usr DESTDIR=packaging/debian $(MAKE) install
