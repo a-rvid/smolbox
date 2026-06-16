@@ -1,4 +1,4 @@
-CC = gcc
+CC?=gcc
 CFLAGS += -Wall -Oz -s -fno-ident -fno-asynchronous-unwind-tables -DNDEBUG
 
 BIN=smolbox
