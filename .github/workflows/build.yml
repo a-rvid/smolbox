@@ -11,14 +11,30 @@ jobs:
           - run: make build-deb
           - uses: actions/upload-artifact@v7
             with:
-                name: smolbox-glibc
+                name: smolbox-glibc-x86_64
                 path: smolbox
                 if-no-files-found: error
                 archive: false
-
           - uses: actions/upload-artifact@v7
             with:
                 name: smolbox-x86_64.deb
                 path: smolbox-x86_64.deb
+                if-no-files-found: error
+                archive: false
+
+          - run: sudo apt update && sudo apt install musl-tools
+          - run: make clean && CC=musl-gcc make
+          - uses: actions/upload-artifact@v7
+            with:
+                name: smolbox-musl-x86_64
+                path: smolbox
+                if-no-files-found: error
+                archive: false
+
+          - run: make clean && CFLAGS=-static CC=musl-gcc make
+          - uses: actions/upload-artifact@v7
+            with:
+                name: smolbox-static-x86_64
+                path: smolbox
                 if-no-files-found: error
                 archive: false
