@@ -8,9 +8,17 @@ jobs:
         steps:
           - uses: actions/checkout@main
           - run: CFLAGS="-std=c2x" make
+          - run: make build-deb
           - uses: actions/upload-artifact@v7
             with:
                 name: smolbox
                 path: smolbox
+                if-no-files-found: error
+                archive: false
+
+          - uses: actions/upload-artifact@v7
+            with:
+                name: smolbox-x86_64.deb
+                path: smolbox-x86_64.deb
                 if-no-files-found: error
                 archive: false

@@ -1,0 +1,8 @@
+Package: smolbox
+Version: 0.1.0
+Architecture: amd64
+Maintainer: a-rvid <git@rvid.eu>
+Depends: libc6
+Section: net
+Priority: extra
+Description: smolbox is an alternative to coreutils and common linux utilities, written in C. Made to be tiny and fast
