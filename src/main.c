@@ -1,21 +1,31 @@
-#include <unistd.h>
-#include <libgen.h>
-#include <string.h>
-#include <stdlib.h>
+#include<unistd.h>
+#include<libgen.h>
+#include<string.h>
+#include<stdio.h>
+#include<stdlib.h>
+#include<linux/limits.h>
 
 #define PRINT(string) write(1, string, strlen(string));
 
-void pwd() {
-    PRINT("pwd");
+int pwd() {
+  char cwd[PATH_MAX];
+  if (getcwd(cwd, sizeof(cwd)) != NULL) {
+    PRINT(cwd);
+  } else {
+    perror("getcwd() error");
+    return 1;
+  }
+  return 0;
 }
 
-void handler() {
+int handler() {
     PRINT("Handler called");
+    return 0;
 }
 
 typedef struct {
     char* argument;
-    void (*handler)(void); // function returning void with void arguments
+    int (*handler)(void); // function returning int with void arguments
 } command;
 
 static const command commands[] = {
@@ -38,8 +48,8 @@ int main(int argc, char **argv) {
     if (result == NULL) {
         PRINT("Command not found\n");
     } else {
-        result->handler();
+        return result->handler();
     }
 
-    return 0;
+    return 1;
 }
