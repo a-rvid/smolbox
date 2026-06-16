@@ -28,10 +28,17 @@ typedef struct {
     int (*handler)(int argc, char **argv, bool offset); // function returning int with void arguments
 } command;
 
-static const command commands[] = {
-    {"ls", ls},
-    {"pwd", pwd},
-};
+#define COMMANDS \
+  X("ls", ls) \
+  X("pwd", pwd)
+
+#define X(argument, handler) {argument, handler},
+static const command commands[] = { COMMANDS };
+#undef X
+
+#define X(argument, handler) argument " "
+static const char help[] = "[ " COMMANDS "]";
+#undef X
 
 constexpr size_t num_commands = sizeof(commands) / sizeof(command);
 
@@ -48,13 +55,6 @@ int main(int argc, char **argv) {
 
     if (result == NULL) {
       if (i == 1){
-        char help[512] = {0};
-        help[0] = '[';
-        for (size_t j = 0; j < num_commands; j++) {
-          strncat(help, commands[j].argument, sizeof(help) - strlen(help) -1);
-          strncat(help, " ", sizeof(help) - strlen(help) -1);
-        }
-        help[strlen(help) - 1] = ']';
         PRINT(help);
       }
     } else {

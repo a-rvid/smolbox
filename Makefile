@@ -1,5 +1,5 @@
 CC = gcc
-CFLAGS = -Wall -Oz -s -fno-ident -fno-asynchronous-unwind-tables -DNDEBUG
+CFLAGS = -Wall -Oz -s -fno-ident -fno-asynchronous-unwind-tables -DNDEBUG -static
 
 smolbox:
 	$(CC) $(CFLAGS) src/main.c -o smolbox

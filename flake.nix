@@ -27,7 +27,7 @@
                ];
 
                shellHook = ''
-                  export LDFLAGS="-L${pkgs.glibc.static}/lib"
+                  export LDFLAGS="-L${pkgs.musl}/lib"
                   export CC=clang
                   export CXX=clang++
                '';
