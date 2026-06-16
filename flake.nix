@@ -22,7 +22,7 @@
                   gdb
                   gnumake
                   pkg-config
-                  # musl
+                  dpkg
                   musl
                ];
 
