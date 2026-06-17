@@ -11,14 +11,6 @@
 
 #define PATH_MAX 4096
 
-// If buffer size (often 1M) exceeds the stack size unexpected may happen
-#define puts(string) do { \
-  char buffer[strlen(string) + 1]; \
-  memcpy(buffer, string, strlen(string)); \
-  buffer[strlen(string)] = '\n'; \
-  write(1, buffer, strlen(string) + 1); \
-} while(0)
-
 int ls(int argc, char **argv, bool offset) {
   char dirs[argc - 1 - offset];
   bool longer = false, all = false, almost_all = false, human_readable = false;
