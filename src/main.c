@@ -6,11 +6,42 @@
 #include <string.h>
 #include <sys/types.h>
 #include <unistd.h>
+#include <errno.h>
+#include <sys/stat.h>
 
 #define PRINT(string) write(1, string, strlen(string));
 #define PATH_MAX 4096
 
-int ls(int argc, char **argv, bool offset) { return 0; }
+/* #define INDEX (i + 1 + offset) */
+int ls(int argc, char **argv, bool offset) {
+  char dirs[argc - 1 - offset];
+  bool human_readable = false; // --human-readable/-h
+  bool all = false; // --all/-a
+  bool almost_all = false; // --almost-all/-A
+  bool llong = false; // --long/-l
+  for (int i = 0; i < (argc - 1 - offset); i++) { // Looping through all args
+    if(argv[i + 1 + offset][0] == '-') { // one dash
+        if(argv[i + 1 + offset][1] == '-') { // two dashes
+            if(strcmp(argv[i + 1 + offset], "--human-readable")) {
+                human_readable = true;
+            } else if(strcmp(argv[i + 1 + offset], "--all")) {
+                all = true;
+            } else if(strcmp(argv[i + 1 + offset], "--almost-all")) {
+                almost_all = true;
+            } else if(strcmp(argv[i + 1 + offset], "--long")) {
+                llong = true;
+            }
+        } else {
+          for(int j = 1; j < strlen(argv[i + 1 + offset]) - 1; j++) { // checks all characters after 1 dash
+            /* if(argv[i + 1 + offset][j]) */
+          }
+        }
+    printf("%s argument %d", argv[i + 1 + offset], i + 1 + offset);
+    }
+  }
+  printf("%d%d%d%d", human_readable, all, almost_all, llong);
+  return 0;
+}
 
 int pwd(int argc, char **argv, bool offset) {
   char cwd[PATH_MAX];
