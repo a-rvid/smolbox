@@ -57,6 +57,10 @@ int pwd(int argc, char **argv, bool offset) {
   return 0;
 }
 
+int rmdirectory(int argc, char **argv, bool offset) {
+  rmdir(argv[1+offset]);
+}
+
 int whoami(int argc, char **argv, bool offset) {
   register struct passwd *pw;
   register uid_t uid;
@@ -81,6 +85,7 @@ typedef struct {
 X("clear", clear)\
   X("ls", ls)                                                                  \
   X("pwd", pwd)                                                                \
+  X("rmdir", rmdirectory)                                                                \
   X("whoami", whoami)
 
 #define X(argument, handler) {argument, handler},
