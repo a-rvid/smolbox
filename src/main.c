@@ -4,9 +4,15 @@
 #include<stdio.h>
 #include<stdlib.h>
 #include<stdbool.h>
+#include<pwd.h>
+#include<sys/types.h>
 
 #define PRINT(string) write(1, string, strlen(string));
 #define PATH_MAX 4096
+
+int ls(int argc, char **argv, bool offset) {
+  return 0;
+}
 
 int pwd(int argc, char **argv, bool offset) {
   char cwd[PATH_MAX];
@@ -19,8 +25,18 @@ int pwd(int argc, char **argv, bool offset) {
   return 0;
 }
 
-int ls(int argc, char **argv, bool offset) {
-  return 0;
+int whoami(int argc, char **argv, bool offset) {
+  register struct passwd *pw;
+  register uid_t uid;
+
+  uid = geteuid();
+  pw = getpwuid(uid);
+  if (pw) {
+    PRINT(pw->pw_name);
+    return 0;
+  }
+  fprintf(stderr, "cannot find name for user ID %u", uid);
+  return 1;
 }
 
 typedef struct {
@@ -30,7 +46,8 @@ typedef struct {
 
 #define COMMANDS \
   X("ls", ls) \
-  X("pwd", pwd)
+  X("pwd", pwd) \
+  X("whoami", whoami)
 
 #define X(argument, handler) {argument, handler},
 static const command commands[] = { COMMANDS };
