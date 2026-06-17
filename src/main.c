@@ -10,44 +10,6 @@
 #include <getopt.h>
 
 #define PATH_MAX 4096
-#define BUF_SIZE 16384
-
-#define puts(string)                                                           \
-  do {                                                                         \
-    print(&stdout_buf, string, strlen(string));                           \
-    print(&stdout_buf, "\n", 1);                                          \
-  } while (0)
-
-typedef struct buffer_io {
-  int fd;
-  char buf[BUF_SIZE];
-  int len;
-} buffer_io;
-
-static buffer_io stdout_buf = {STDOUT_FILENO};
-
-void flush(buffer_io *buf) {
-  if(buf->len > 0) {
-    write(buf->fd, buf->buf, buf->len);
-    buf->len = 0;
-  }
-}
-
-void print(buffer_io *buf, const char *s, int len) {
-  while (len > 0) {
-    int space = BUF_SIZE - buf->len;
-    int chunk = len < space ? len : space;
-
-    memcpy(buf->buf + buf->len, s, chunk);
-    buf->len += chunk;
-    s += chunk;
-    len -= chunk;
-
-    if (buf->len == BUF_SIZE) {
-      flush(buf);
-    }
-  }
-}
 
 int ls(int argc, char **argv, bool offset) {
   char dirs[argc - 1 - offset];
@@ -143,10 +105,8 @@ int main(int argc, char **argv) {
       }
     } else {
       argv[0] = argv[i];
-      flush(&stdout_buf);
       return result->handler(argc, argv, i);
     }
   }
-  flush(&stdout_buf);
   return 1;
 }
