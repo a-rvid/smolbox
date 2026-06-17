@@ -8,38 +8,54 @@
 #include <unistd.h>
 #include <errno.h>
 #include <sys/stat.h>
+#include <argp.h>
 
 #define PRINT(string) write(1, string, strlen(string));
 #define PATH_MAX 4096
 
+const char *argp_program_version = "smolbox v0.1.0";
+const char *argp_program_bug_address = "<bug@rvid.eu>";
+static char args_doc[] = "[FILE]...";
+
+struct arguments_ls {
+  bool longer;
+  bool all;
+  bool almost_all;
+  bool human_readable;
+};
+
+static error_t parse_opt_ls(int key, char *arg, struct argp_state *state) {
+    struct arguments_ls *arguments = state->input;
+    switch (key) {
+        case 'l': arguments->longer = true; break;
+        case 'a': arguments->all = true; break;
+        case 'A': arguments->almost_all = true; break;
+        case 'h': arguments->human_readable = true; break;
+        case ARGP_KEY_ARG: return 0;
+        default: return ARGP_ERR_UNKNOWN;
+    }
+    return 0;
+}
+
+
+static struct argp_option options_ls[] = {
+    { "long", 'l', 0, 0, "Display detailed information"},
+    { "all", 'a', 0, 0, "Do not ignore hidden files"},
+    { "almost-all", 'A', 0, 0, "Only ignore '.' and '..'"},
+    { "human-readable", 'h', 0, 0, "With -l, print sizes like 1K 234M 2G etc."},
+    { 0 }
+};
+static char doc_ls[] = "List directory contents.\n"
+                       "Ignore files and directories starting with a '.' by default";
 /* #define INDEX (i + 1 + offset) */
 int ls(int argc, char **argv, bool offset) {
+  static struct argp argp = { options_ls, parse_opt_ls, args_doc, doc_ls, 0, 0, 0 };
   char dirs[argc - 1 - offset];
-  bool human_readable = false; // --human-readable/-h
-  bool all = false; // --all/-a
-  bool almost_all = false; // --almost-all/-A
-  bool llong = false; // --long/-l
-  for (int i = 0; i < (argc - 1 - offset); i++) { // Looping through all args
-    if(argv[i + 1 + offset][0] == '-') { // one dash
-        if(argv[i + 1 + offset][1] == '-') { // two dashes
-            if(strcmp(argv[i + 1 + offset], "--human-readable")) {
-                human_readable = true;
-            } else if(strcmp(argv[i + 1 + offset], "--all")) {
-                all = true;
-            } else if(strcmp(argv[i + 1 + offset], "--almost-all")) {
-                almost_all = true;
-            } else if(strcmp(argv[i + 1 + offset], "--long")) {
-                llong = true;
-            }
-        } else {
-          for(int j = 1; j < strlen(argv[i + 1 + offset]) - 1; j++) { // checks all characters after 1 dash
-            /* if(argv[i + 1 + offset][j]) */
-          }
-        }
-    printf("%s argument %d", argv[i + 1 + offset], i + 1 + offset);
-    }
-  }
-  printf("%d%d%d%d", human_readable, all, almost_all, llong);
+  struct arguments_ls args;
+
+  argp_parse(&argp, argc, argv, 0, 0, &args);
+  printf("Long: %d, all: %d, almost all: %d, human readable: %d", args.longer, args.all, args.almost_all, args.human_readable);
+
   return 0;
 }
 
@@ -106,6 +122,7 @@ int main(int argc, char **argv) {
         PRINT(help);
       }
     } else {
+      argv[0] = argv[i];
       return result->handler(argc, argv, i);
     }
   }
