@@ -8,53 +8,37 @@
 #include <unistd.h>
 #include <errno.h>
 #include <sys/stat.h>
-#include <argp.h>
+#include <getopt.h>
 
 #define PRINT(string) write(1, string, strlen(string));
 #define PATH_MAX 4096
 
-const char *argp_program_version = "smolbox v0.1.0";
-const char *argp_program_bug_address = "<bug@rvid.eu>";
-static char args_doc[] = "[FILE]...";
-
-struct arguments_ls {
-  bool longer;
-  bool all;
-  bool almost_all;
-  bool human_readable;
-};
-
-static error_t parse_opt_ls(int key, char *arg, struct argp_state *state) {
-    struct arguments_ls *arguments = state->input;
-    switch (key) {
-        case 'l': arguments->longer = true; break;
-        case 'a': arguments->all = true; break;
-        case 'A': arguments->almost_all = true; break;
-        case 'h': arguments->human_readable = true; break;
-        case ARGP_KEY_ARG: return 0;
-        default: return ARGP_ERR_UNKNOWN;
-    }
-    return 0;
-}
-
-
-static struct argp_option options_ls[] = {
-    { "long", 'l', 0, 0, "Display detailed information"},
-    { "all", 'a', 0, 0, "Do not ignore hidden files"},
-    { "almost-all", 'A', 0, 0, "Only ignore '.' and '..'"},
-    { "human-readable", 'h', 0, 0, "With -l, print sizes like 1K 234M 2G etc."},
-    { 0 }
-};
-static char doc_ls[] = "List directory contents.\n"
-                       "Ignore files and directories starting with a '.' by default";
-/* #define INDEX (i + 1 + offset) */
 int ls(int argc, char **argv, bool offset) {
-  static struct argp argp = { options_ls, parse_opt_ls, args_doc, doc_ls, 0, 0, 0 };
   char dirs[argc - 1 - offset];
-  struct arguments_ls args = {0};
+  bool longer = false, all = false, almost_all = false, human_readable = false;
 
-  argp_parse(&argp, argc, argv, 0, 0, &args);
-  printf("Long: %d, all: %d, almost all: %d, human readable: %d", args.longer, args.all, args.almost_all, args.human_readable);
+  static struct option long_options[] = {
+    {"long", no_argument, NULL, 'l'},
+    {"all", no_argument, NULL, 'a'},
+    {"almost-all", no_argument, NULL, 'A'},
+    {"human-readable", no_argument, NULL, 'h'},
+    {NULL, 0, NULL, 0}
+  };
+  int opt;
+  while ((opt = getopt_long(argc, argv, "laAh", long_options, NULL)) != -1) {
+    switch (opt) {
+    case 'l':
+      longer = true; break;
+    case 'a':
+      all = true; break;
+    case 'A':
+      almost_all = true; break;
+    case 'h':
+      human_readable = true; break;
+    }
+  }
+
+  printf("Long: %d, all: %d, almost all: %d, human readable: %d", longer, all, almost_all, human_readable);
 
   return 0;
 }
