@@ -10,7 +10,6 @@
 #include <sys/stat.h>
 #include <getopt.h>
 
-#define PRINT(string) write(1, string, strlen(string));
 #define PATH_MAX 4096
 
 int ls(int argc, char **argv, bool offset) {
@@ -38,7 +37,7 @@ int ls(int argc, char **argv, bool offset) {
     }
   }
 
-  printf("Long: %d, all: %d, almost all: %d, human readable: %d", longer, all, almost_all, human_readable);
+  printf("Long: %d, all: %d, almost all: %d, human readable: %d\n", longer, all, almost_all, human_readable);
 
   return 0;
 }
@@ -46,7 +45,7 @@ int ls(int argc, char **argv, bool offset) {
 int pwd(int argc, char **argv, bool offset) {
   char cwd[PATH_MAX];
   if (getcwd(cwd, sizeof(cwd)) != NULL) {
-    PRINT(cwd);
+    puts(cwd);
   } else {
     perror("getcwd() error");
     return 1;
@@ -61,7 +60,7 @@ int whoami(int argc, char **argv, bool offset) {
   uid = geteuid();
   pw = getpwuid(uid);
   if (pw) {
-    PRINT(pw->pw_name);
+    puts(pw->pw_name);
     return 0;
   }
   fprintf(stderr, "cannot find name for user ID %u", uid);
@@ -103,7 +102,7 @@ int main(int argc, char **argv) {
 
     if (result == NULL) {
       if (i == 1) {
-        PRINT(help);
+        puts(help);
       }
     } else {
       argv[0] = argv[i];
