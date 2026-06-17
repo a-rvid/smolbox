@@ -11,6 +11,11 @@
 
 #define PATH_MAX 4096
 
+int clear(int argc, char **argv, bool offset) {
+  fputs("\033[2J\033[H", stdout);
+  return 0;
+}
+
 int ls(int argc, char **argv, bool offset) {
   char dirs[argc - 1 - offset];
   bool longer = false, all = false, almost_all = false, human_readable = false;
@@ -72,7 +77,8 @@ typedef struct {
                  bool offset); // function returning int with void arguments
 } command;
 
-#define COMMANDS                                                               \
+#define COMMANDS \
+X("clear", clear)\
   X("ls", ls)                                                                  \
   X("pwd", pwd)                                                                \
   X("whoami", whoami)
