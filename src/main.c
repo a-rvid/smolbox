@@ -11,6 +11,7 @@
 #include <getopt.h>
 
 #define PATH_MAX 4096
+#define puts(string) do { write(1, string, strlen(string)); write(1, "\n", 1); } while(0)
 
 int ls(int argc, char **argv, bool offset) {
   char dirs[argc - 1 - offset];
