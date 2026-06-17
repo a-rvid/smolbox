@@ -51,7 +51,7 @@ static char doc_ls[] = "List directory contents.\n"
 int ls(int argc, char **argv, bool offset) {
   static struct argp argp = { options_ls, parse_opt_ls, args_doc, doc_ls, 0, 0, 0 };
   char dirs[argc - 1 - offset];
-  struct arguments_ls args;
+  struct arguments_ls args = {0};
 
   argp_parse(&argp, argc, argv, 0, 0, &args);
   printf("Long: %d, all: %d, almost all: %d, human readable: %d", args.longer, args.all, args.almost_all, args.human_readable);
