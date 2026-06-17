@@ -37,7 +37,7 @@ int ls(int argc, char **argv, bool offset) {
     }
   }
 
-  printf("Long: %d, all: %d, almost all: %d, human readable: %d\n", longer, all, almost_all, human_readable);
+  /* printf("Long: %d, all: %d, almost all: %d, human readable: %d\n", longer, all, almost_all, human_readable); */
 
   return 0;
 }
@@ -63,7 +63,7 @@ int whoami(int argc, char **argv, bool offset) {
     puts(pw->pw_name);
     return 0;
   }
-  fprintf(stderr, "cannot find name for user ID %u", uid);
+  /* fprintf(stderr, "cannot find name for user ID %u", uid); */
   return 1;
 }
 
