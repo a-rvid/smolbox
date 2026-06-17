@@ -10,6 +10,8 @@
 #include <getopt.h>
 
 #define PATH_MAX 4096
+
+// If buffer size (often 1M) exceeds the stack size unexpected may happen
 #define puts(string) do { \
   char buffer[strlen(string) + 1]; \
   memcpy(buffer, string, strlen(string)); \
