@@ -62,6 +62,7 @@ int pwd(int argc, char **argv, bool offset) {
 
 int rmdirectory(int argc, char **argv, bool offset) {
   rmdir(argv[1+offset]);
+  return 0;
 }
 
 int whoami(int argc, char **argv, bool offset) {
