@@ -9,6 +9,9 @@
 #include <sys/stat.h>
 #include <getopt.h>
 
+#define NAME "SmolBox"
+#define VERSION "v0.1.0"
+
 #define PATH_MAX 4096
 
 int clear(int argc, char **argv, bool offset) {
@@ -75,6 +78,13 @@ int whoami(int argc, char **argv, bool offset) {
   return 1;
 }
 
+int yes(int argc, char **argv, bool offset) {
+  char *print = (argc > (2 + offset)) ? argv[1 + offset] : "yes";
+  for(;;) {
+    puts(print);
+  }
+}
+
 typedef struct {
   char *argument;
   int (*handler)(int argc, char **argv,
@@ -86,14 +96,15 @@ X("clear", clear)\
   X("ls", ls)                                                                  \
   X("pwd", pwd)                                                                \
   X("rmdir", rmdirectory)                                                                \
-  X("whoami", whoami)
+  X("whoami", whoami) \
+ X("yes", yes)
 
 #define X(argument, handler) {argument, handler},
 static const command commands[] = {COMMANDS};
 #undef X
 
 #define X(argument, handler) argument " "
-static const char help[] = "[ " COMMANDS "]";
+static const char help[] = NAME " version " VERSION "\n\nRegistered commands: " COMMANDS;
 #undef X
 
 constexpr size_t num_commands = sizeof(commands) / sizeof(command);
