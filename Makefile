@@ -21,7 +21,7 @@ build-deb:
 	mv packaging/debian.deb ./$(BIN)-x86_64.deb
 
 clean-deb:
-	rm -rf packaging/debian/usr sanctum-x86_64.deb
+	rm -rf packaging/debian/usr $(BIN)-x86_64.deb
 
 clean:
 	$(MAKE) clean-deb
