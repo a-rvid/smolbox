@@ -1,13 +1,13 @@
+#include <getopt.h>
 #include <libgen.h>
 #include <pwd.h>
 #include <stdbool.h>
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
+#include <sys/stat.h>
 #include <sys/types.h>
 #include <unistd.h>
-#include <sys/stat.h>
-#include <getopt.h>
 
 #define NAME "SmolBox"
 #define VERSION "v0.1.0"
@@ -24,27 +24,31 @@ int ls(int argc, char **argv, bool offset) {
   bool longer = false, all = false, almost_all = false, human_readable = false;
 
   static struct option long_options[] = {
-    {"long", no_argument, NULL, 'l'},
-    {"all", no_argument, NULL, 'a'},
-    {"almost-all", no_argument, NULL, 'A'},
-    {"human-readable", no_argument, NULL, 'h'},
-    {NULL, 0, NULL, 0}
-  };
+      {"long", no_argument, NULL, 'l'},
+      {"all", no_argument, NULL, 'a'},
+      {"almost-all", no_argument, NULL, 'A'},
+      {"human-readable", no_argument, NULL, 'h'},
+      {NULL, 0, NULL, 0}};
   int opt;
   while ((opt = getopt_long(argc, argv, "laAh", long_options, NULL)) != -1) {
     switch (opt) {
     case 'l':
-      longer = true; break;
+      longer = true;
+      break;
     case 'a':
-      all = true; break;
+      all = true;
+      break;
     case 'A':
-      almost_all = true; break;
+      almost_all = true;
+      break;
     case 'h':
-      human_readable = true; break;
+      human_readable = true;
+      break;
     }
   }
 
-  /* printf("Long: %d, all: %d, almost all: %d, human readable: %d\n", longer, all, almost_all, human_readable); */
+  /* printf("Long: %d, all: %d, almost all: %d, human readable: %d\n", longer,
+   * all, almost_all, human_readable); */
 
   return 0;
 }
@@ -68,7 +72,7 @@ int pwd(int argc, char **argv, bool offset) {
 }
 
 int rmdirectory(int argc, char **argv, bool offset) {
-  rmdir(argv[1+offset]);
+  rmdir(argv[1 + offset]);
   return 0;
 }
 
@@ -88,7 +92,7 @@ int whoami(int argc, char **argv, bool offset) {
 
 int yes(int argc, char **argv, bool offset) {
   char *print = (argc > (2 + offset)) ? argv[1 + offset] : "yes";
-  for(;;) {
+  for (;;) {
     puts(print);
   }
 }
@@ -99,21 +103,22 @@ typedef struct {
                  bool offset); // function returning int with void arguments
 } command;
 
-#define COMMANDS \
-X("clear", clear)\
+#define COMMANDS                                                               \
+  X("clear", clear)                                                            \
   X("ls", ls)                                                                  \
-  X("printenv", printenv)                                                                  \
+  X("printenv", printenv)                                                      \
   X("pwd", pwd)                                                                \
-  X("rmdir", rmdirectory)                                                                \
-  X("whoami", whoami) \
- X("yes", yes)
+  X("rmdir", rmdirectory)                                                      \
+  X("whoami", whoami)                                                          \
+  X("yes", yes)
 
 #define X(argument, handler) {argument, handler},
 static const command commands[] = {COMMANDS};
 #undef X
 
 #define X(argument, handler) argument " "
-static const char help[] = NAME " version " VERSION "\n\nRegistered commands: " COMMANDS;
+static const char help[] =
+    NAME " version " VERSION "\n\nRegistered commands: " COMMANDS;
 #undef X
 
 constexpr size_t num_commands = sizeof(commands) / sizeof(command);
