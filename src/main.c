@@ -49,6 +49,13 @@ int ls(int argc, char **argv, bool offset) {
   return 0;
 }
 
+int printenv(int argc, char **argv, bool offset) {
+  extern char **environ;
+  for (environ; *environ; ++environ) {
+    puts(*environ);
+  }
+}
+
 int pwd(int argc, char **argv, bool offset) {
   char cwd[PATH_MAX];
   if (getcwd(cwd, sizeof(cwd)) != NULL) {
@@ -95,6 +102,7 @@ typedef struct {
 #define COMMANDS \
 X("clear", clear)\
   X("ls", ls)                                                                  \
+  X("printenv", printenv)                                                                  \
   X("pwd", pwd)                                                                \
   X("rmdir", rmdirectory)                                                                \
   X("whoami", whoami) \
