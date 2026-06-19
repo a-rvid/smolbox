@@ -1,5 +1,8 @@
+
+
 #include <getopt.h>
 #include <libgen.h>
+#include <errno.h>
 #include <pwd.h>
 #include <stdbool.h>
 #include <stdio.h>
@@ -7,12 +10,39 @@
 #include <string.h>
 #include <sys/stat.h>
 #include <sys/types.h>
+#include <sys/resource.h>
 #include <unistd.h>
 
 #define NAME "SmolBox"
 #define VERSION "v0.1.0"
 
 #define PATH_MAX 4096
+char* Itoa(int value, char* str, int radix) {
+    static char dig[] =
+        "0123456789"
+        "abcdefghijklmnopqrstuvwxyz";
+    int n = 0, neg = 0;
+    unsigned int v;
+    char* p, *q;
+    char c;
+
+    if (radix == 10 && value < 0) {
+        value = -value;
+        neg = 1;
+    }
+    v = value;
+    do {
+        str[n++] = dig[v%radix];
+        v /= radix;
+    } while (v);
+    if (neg)
+        str[n++] = '-';
+    str[n] = '\0';
+
+    for (p = str, q = p + (n-1); p < q; ++p, --q)
+        c = *p, *p = *q, *q = c;
+    return str;
+}
 
 int clear(int argc, char **argv, bool offset) {
   fputs("\033[2J\033[H", stdout);
@@ -53,11 +83,57 @@ int ls(int argc, char **argv, bool offset) {
   return 0;
 }
 
+int niceness(int argc, char **argv, bool offset) {
+  errno = 0;
+  int niceness = getpriority(PRIO_PROCESS, 0);
+  if (errno != 0) {
+    perror("getpriority");
+    return 1;
+  }
+
+  static struct option long_options[] = {
+    {"adjustment", required_argument, NULL, 'n'},
+    {NULL, 0, NULL, 0}
+  };
+
+  int outnice = niceness;
+  int opt;
+
+  char *fake_argv[3] = {NULL};
+  fake_argv[0] = argv[0];
+  fake_argv[1] = argv[1+offset];
+  // Segmentation Fault here!!!
+  if ((opt = getopt_long(2, fake_argv, "n:", long_options, NULL)) == 'n') {
+    outnice += atoi(optarg);
+  } else {
+    outnice += 10;
+  }
+
+  if (argc <= 1 + offset) {
+    char sniceness[4];
+    Itoa(niceness, sniceness, 10);
+    puts(sniceness);
+    return 0;
+  }
+
+  if(setpriority(PRIO_PROCESS, 0, outnice) == -1) {
+    perror("nice");
+    return 1;
+  } else {
+    if(execvp(argv[1 + offset], &argv[1 + offset]) == -1) {
+      perror(argv[1 + offset]);
+    };
+  }
+
+  return 0;
+}
+
 int printenv(int argc, char **argv, bool offset) {
   extern char **environ;
   for (environ; *environ; ++environ) {
     puts(*environ);
   }
+  return 0;
 }
 
 int pwd(int argc, char **argv, bool offset) {
@@ -65,7 +141,7 @@ int pwd(int argc, char **argv, bool offset) {
   if (getcwd(cwd, sizeof(cwd)) != NULL) {
     puts(cwd);
   } else {
-    perror("getcwd() error");
+    perror("getcwd error");
     return 1;
   }
   return 0;
@@ -106,6 +182,7 @@ typedef struct {
 #define COMMANDS                                                               \
   X("clear", clear)                                                            \
   X("ls", ls)                                                                  \
+  X("nice", niceness)                                                          \
   X("printenv", printenv)                                                      \
   X("pwd", pwd)                                                                \
   X("rmdir", rmdirectory)                                                      \
