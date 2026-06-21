@@ -198,7 +198,7 @@ static const char help[] =
     NAME " version " VERSION "\n\nRegistered commands: " COMMANDS;
 #undef X
 
-constexpr size_t num_commands = sizeof(commands) / sizeof(command);
+static const size_t num_commands = sizeof(commands) / sizeof(command);
 
 int cmp(const void *a, const void *b) {
   command *ca = (command *)a;

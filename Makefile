@@ -1,6 +1,20 @@
 CC?=gcc
-STD?=-std=c23
-CFLAGS += -Wall -Oz -s -fno-ident -fno-asynchronous-unwind-tables -DNDEBUG $(STD)
+
+
+CFLAGS += -std=c11 -Wall -Wextra -Oz                         \
+	 -pedantic-errors                                    \
+         -I/usr/local/include                                \
+         -fcf-protection=none                                \
+	 -fno-asm -nostdlib -ffreestanding                   \
+	 -fno-ident -fno-asynchronous-unwind-tables -DNDEBUG \
+	 -fno-stack-protector
+
+LDFLAGS = -s -static                  \
+	  -L/usr/local/lib            \
+          -Wl,-z,noseparate-code      \
+          -Wl,-z,max-page-size=0x1000
+
+LDLIBS = -llinux
 
 BIN=smolbox
 
