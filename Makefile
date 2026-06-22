@@ -1,17 +1,18 @@
 CC?=gcc
 
 
-CFLAGS += -std=c11 -Wall -Wextra -Oz                         \
-	 -pedantic-errors                                    \
-         -I/usr/local/include                                \
-         -fcf-protection=none                                \
-	 -fno-asm -nostdlib -ffreestanding                   \
-	 -fno-ident -fno-asynchronous-unwind-tables -DNDEBUG \
-	 -fno-stack-protector
+CFLAGS += -std=c11 -Wall -Wextra -Oz                          \
+	  -pedantic-errors                                    \
+	  -Ilinux/tools/include/nolibc                        \
+          -fcf-protection=none                                \
+	  -fno-asm -nostdlib -ffreestanding                   \
+	  -fno-ident -fno-asynchronous-unwind-tables -DNDEBUG \
+	  -fno-stack-protector
 
-LDFLAGS = -s -static                  \
-	  -L/usr/local/lib            \
-          -Wl,-z,noseparate-code      \
+LDFLAGS = -s -static                           \
+          -Wl,-z,noseparate-code               \
+	  -Llib/libfreestanding -lfreestanding \
+	  -Llib/liblinux -llinux               \
           -Wl,-z,max-page-size=0x1000
 
 LDLIBS = -llinux
@@ -22,7 +23,7 @@ DESTDIR?=
 PREFIX?=/usr/local
 INSTALLDIR?=$(PREFIX)/bin
 
-smolbox:
+all:
 	$(CC) $(CFLAGS) src/main.c -o $(BIN)
 
 install:
