@@ -10,9 +10,9 @@
 /* #include <sys/types.h> */
 /* #include <sys/resource.h> */
 #include "lib.h"
-#include "yes.h"
-#include "clear.h"
-#include "rmdir.h"
+#include "tools/yes.h"
+#include "tools/clear.h"
+#include "tools/rmdir.h"
 
 char **environ;
 
