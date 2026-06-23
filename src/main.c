@@ -1,4 +1,3 @@
-#ifndef NOLIBC
 /* #include <getopt.h> */
 /* #include <libgen.h> */
 /* #include <errno.h> */
@@ -6,12 +5,12 @@
 #include <stdbool.h>
 #include <stdio.h>
 /* #include <stdlib.h> */
-#include <string.h>
 /* #include <sys/stat.h> */
 /* #include <sys/types.h> */
 /* #include <sys/resource.h> */
-#include <unistd.h>
-#endif
+#include "commands/yes.h"
+#include "commands/clear.h"
+#include "commands/rmdir.h"
 
 char **environ;
 
@@ -19,11 +18,6 @@ char **environ;
 #define VERSION "v0.1.0"
 
 #define PATH_MAX 4096
-
-/* int clear(int argc, char **argv, bool offset) { */
-/*   fputs("\033[2J\033[H", stdout); */
-/*   return 0; */
-/* } */
 
 /* int ls(int argc, char **argv, bool offset) { */
 /*   char dirs[argc - 1 - offset]; */
@@ -123,10 +117,6 @@ char **environ;
 /*   return 0; */
 /* } */
 
-/* int rmdirectory(int argc, char **argv, bool offset) { */
-/*   rmdir(argv[1 + offset]); */
-/*   return 0; */
-/* } */
 
 /* int whoami(int argc, char **argv, bool offset) { */
 /*   register struct passwd *pw; */
@@ -142,13 +132,6 @@ char **environ;
 /*   return 1; */
 /* } */
 
-int yes(int argc, char **argv, bool offset) {
-  char *print = (argc > (2 + offset)) ? argv[1 + offset] : "yes";
-  for (;;) {
-    puts(print);
-  }
-}
-
 typedef struct {
   char *argument;
   int (*handler)(int argc, char **argv,
@@ -156,8 +139,9 @@ typedef struct {
 } command;
 
 #define COMMANDS                                                               \
+  X("clear", clear)                                                            \
+  X("rmdir", rmdirectory)                                                      \
   X("yes", yes)
-  /* X("clear", clear)                                                            \ */
   /* X("ls", ls)                                                                  \ */
   /* X("nice", niceness)                                                          \ */
   /* X("printenv", printenv)                                                      \ */
@@ -176,7 +160,7 @@ static const char help[] =
 
 static const size_t num_commands = sizeof(commands) / sizeof(command);
 
-int binary_search(const command *array, unsigned int array_size, char *key) {
+int binary_search(const command *array, unsigned int array_size, const char *key) {
     unsigned int mid, bot;
     int val;
 
@@ -198,8 +182,8 @@ int binary_search(const command *array, unsigned int array_size, char *key) {
 
 int main(int argc, char *argv[], char *envp[]) {
   for (int i = 0; i < 2 && i < argc; i++) {
-    command key = {basename(argv[i]), NULL};
-    int command_index = binary_search(commands, num_commands, argv[i]);
+    const char *key = basename(argv[i]);
+    int command_index = binary_search(commands, num_commands, key);
 
     if (command_index == -1) {
       if (i == 1) {
