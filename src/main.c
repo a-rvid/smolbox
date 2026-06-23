@@ -8,9 +8,9 @@
 /* #include <sys/stat.h> */
 /* #include <sys/types.h> */
 /* #include <sys/resource.h> */
-#include "commands/yes.h"
-#include "commands/clear.h"
-#include "commands/rmdir.h"
+#include "yes.h"
+#include "clear.h"
+#include "rmdir.h"
 
 char **environ;
 
