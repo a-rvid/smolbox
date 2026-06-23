@@ -3,11 +3,13 @@
 /* #include <errno.h> */
 /* #include <pwd.h> */
 #include <stdbool.h>
+#include <errno.h>
 #include <stdio.h>
 /* #include <stdlib.h> */
 /* #include <sys/stat.h> */
 /* #include <sys/types.h> */
 /* #include <sys/resource.h> */
+#include "lib.h"
 #include "yes.h"
 #include "clear.h"
 #include "rmdir.h"
@@ -160,38 +162,25 @@ static const char help[] =
 
 static const size_t num_commands = sizeof(commands) / sizeof(command);
 
-int binary_search(const command *array, unsigned int array_size, const char *key) {
-    unsigned int mid, bot;
-    int val;
-
-    bot = 0;
-    mid = array_size;
-
-    while (mid) {
-        mid /= 2;
-
-        val = strcmp(key, array[bot + mid].argument);
-
-        if (val == 0)
-            return bot + mid;
-        if (val > 0)
-            bot += mid + 1;
-    }
-    return -1;
+int cmp(const void *a, const void *b) {
+  command *ca = (command *)a;
+  command *cb = (command *)b;
+  return strcmp(ca->argument, cb->argument);
 }
 
 int main(int argc, char *argv[], char *envp[]) {
   for (int i = 0; i < 2 && i < argc; i++) {
     const char *key = basename(argv[i]);
-    int command_index = binary_search(commands, num_commands, key);
+    errno = 0;
+    command *result = bsearch(&key, commands, num_commands, sizeof(command), cmp);
 
-    if (command_index == -1) {
+    if (result == NULL) {
       if (i == 1) {
         puts(help);
       }
     } else {
       argv[0] = argv[i];
-      return commands[command_index].handler(argc, argv, i);
+      return result->handler(argc, argv, i);
     }
   }
   return 0;

@@ -8,8 +8,6 @@
       "-Wextra",
       "-Oz",
       "-Ilib/linux/tools/include/nolibc",
-      "-include",
-      "src/lib.h",
       "-fcf-protection=none",
       "-fno-asm",
       "-ffreestanding",
@@ -47,8 +45,6 @@
       "-Wextra",
       "-Oz",
       "-Ilib/linux/tools/include/nolibc",
-      "-include",
-      "src/lib.h",
       "-fcf-protection=none",
       "-fno-asm",
       "-ffreestanding",
@@ -66,7 +62,12 @@
       "-idirafter",
       "/nix/store/qxaq7jz61a6zkr2mq49i0zvqip2m2jj8-gcc-15.2.0/lib/gcc/x86_64-unknown-linux-gnu/15.2.0/include-fixed",
       "-B/nix/store/chqq8mpmpyfi9kgsngya71akv5xicn03-gcc-15.2.0-lib/lib",
-      "-frandom-seed=r8xgkb5rjc"
+      "-frandom-seed=r8xgkb5rjc",
+      "-frandom-seed=5h7f5q7l2m",
+      "-isystem",
+      "/nix/store/r41icz95c9q44fznzaq079b7n179va13-gdb-17.1/include",
+      "-isystem",
+      "/nix/store/r41icz95c9q44fznzaq079b7n179va13-gdb-17.1/include"
     ],
     "directory": "/home/user/Projects/smolbox",
     "output": "smolbox"
