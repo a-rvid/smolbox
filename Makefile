@@ -2,20 +2,16 @@ CC?=gcc
 
 
 CFLAGS += -std=c11 -Wall -Wextra -Oz                          \
-	  -pedantic-errors                                    \
-	  -Ilinux/tools/include/nolibc                        \
+	  -Ilib/linux/tools/include/nolibc                    \
+	  -include nolibc.h -include src/lib.h                \
           -fcf-protection=none                                \
 	  -fno-asm -nostdlib -ffreestanding                   \
-	  -fno-ident -fno-asynchronous-unwind-tables -DNDEBUG \
+	  -fno-ident -fno-asynchronous-unwind-tables          \
 	  -fno-stack-protector
 
-LDFLAGS = -s -static                           \
-          -Wl,-z,noseparate-code               \
-	  -Llib/libfreestanding -lfreestanding \
-	  -Llib/liblinux -llinux               \
-          -Wl,-z,max-page-size=0x1000
-
-LDLIBS = -llinux
+LDFLAGS = -Wl,-z,noseparate-code               \
+          -Wl,-z,max-page-size=0x1000          \
+          -Wl,--omagic
 
 BIN=smolbox
 
@@ -24,7 +20,11 @@ PREFIX?=/usr/local
 INSTALLDIR?=$(PREFIX)/bin
 
 all:
-	$(CC) $(CFLAGS) src/main.c -o $(BIN)
+	$(CC) $(CFLAGS) src/main.c -s -static -o $(BIN) $(LDFLAGS)
+	objcopy --strip-section-headers $(BIN)
+
+debug:
+	$(CC) $(CFLAGS) src/main.c -ggdb -static -o $(BIN) $(LDFLAGS)
 
 install:
 	mkdir -p $(DESTDIR)$(INSTALLDIR)
@@ -42,4 +42,4 @@ clean:
 	$(MAKE) clean-deb
 	rm -f smolbox
 
-.PHONY: install clean build-deb clean-deb
+.PHONY: install clean build-deb clean-deb dev

@@ -19,44 +19,6 @@ char **environ;
 #define VERSION "v0.1.0"
 
 #define PATH_MAX 4096
-#define puts(string) write(1, string, strlen(string));
-
-int strcmp(const char* str1, const char* str2) {
-  while(*str1 && (*str1 == *str2)) { str1++; str2++; } ;
-  return *(const unsigned char*)str1 - *(const unsigned char*)str2;
-}
-
-char * basename (const char *filename) {
-  char *p = strrchr (filename, '/');
-  return p ? p + 1 : (char *) filename;
-}
-
-char* Itoa(int value, char* str, int radix) {
-    static char dig[] =
-        "0123456789"
-        "abcdefghijklmnopqrstuvwxyz";
-    int n = 0, neg = 0;
-    unsigned int v;
-    char* p, *q;
-    char c;
-
-    if (radix == 10 && value < 0) {
-        value = -value;
-        neg = 1;
-    }
-    v = value;
-    do {
-        str[n++] = dig[v%radix];
-        v /= radix;
-    } while (v);
-    if (neg)
-        str[n++] = '-';
-    str[n] = '\0';
-
-    for (p = str, q = p + (n-1); p < q; ++p, --q)
-        c = *p, *p = *q, *q = c;
-    return str;
-}
 
 /* int clear(int argc, char **argv, bool offset) { */
 /*   fputs("\033[2J\033[H", stdout); */
@@ -235,9 +197,9 @@ int binary_search(const command *array, unsigned int array_size, char *key) {
 }
 
 int main(int argc, char *argv[], char *envp[]) {
-  for (int i = 0; i < 2; i++) {
+  for (int i = 0; i < 2 && i < argc; i++) {
     command key = {basename(argv[i]), NULL};
-    int command_index = binary_search(commands, sizeof commands, argv[i]);
+    int command_index = binary_search(commands, num_commands, argv[i]);
 
     if (command_index == -1) {
       if (i == 1) {
