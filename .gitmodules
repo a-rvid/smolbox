@@ -1,0 +1,6 @@
+[submodule "linux"]
+	url = https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git
+	branch = master
+[submodule "lib/linux"]
+	path = lib/linux
+	url = https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git

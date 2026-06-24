@@ -1,6 +1,16 @@
 CC?=gcc
-STD?=-std=c23
-CFLAGS += -Wall -Oz -s -fno-ident -fno-asynchronous-unwind-tables -DNDEBUG $(STD)
+
+
+CFLAGS += -std=c11 -Wall -Wextra -Oz                          \
+	  -Ilib/linux/tools/include/nolibc                    \
+          -fcf-protection=none -flto                          \
+	  -fno-asm -nostdlib -ffreestanding                   \
+	  -fno-ident -fno-asynchronous-unwind-tables          \
+	  -fno-stack-protector
+
+LDFLAGS = -Wl,-z,noseparate-code               \
+          -Wl,-z,max-page-size=0x1000          \
+          -Wl,--omagic
 
 BIN=smolbox
 
@@ -8,8 +18,12 @@ DESTDIR?=
 PREFIX?=/usr/local
 INSTALLDIR?=$(PREFIX)/bin
 
-smolbox:
-	$(CC) $(CFLAGS) src/main.c -o $(BIN)
+all:
+	$(CC) $(CFLAGS) src/main.c -s -static -o $(BIN) $(LDFLAGS)
+	objcopy --strip-section-headers $(BIN)
+
+debug:
+	$(CC) $(CFLAGS) src/main.c -ggdb -static -o $(BIN) $(LDFLAGS)
 
 install:
 	mkdir -p $(DESTDIR)$(INSTALLDIR)
@@ -27,4 +41,4 @@ clean:
 	$(MAKE) clean-deb
 	rm -f smolbox
 
-.PHONY: install clean build-deb clean-deb
+.PHONY: install clean build-deb clean-deb dev
