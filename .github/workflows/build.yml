@@ -7,37 +7,18 @@ jobs:
         runs-on: ubuntu-latest
         steps:
           - uses: actions/checkout@main
-          - run: STD="-std=c2x" make
+          - run: make
           - run: make build-deb
           - run: mv smolbox smolbox-glibc-x86_64
           - uses: actions/upload-artifact@v7
             with:
-                name: smolbox-glibc-x86_64
-                path: smolbox-glibc-x86_64
+                name: smolbox-x86_64
+                path: smolbox-x86_64
                 if-no-files-found: error
                 archive: false
           - uses: actions/upload-artifact@v7
             with:
                 name: smolbox-x86_64.deb
                 path: smolbox-x86_64.deb
-                if-no-files-found: error
-                archive: false
-
-          - run: sudo apt update && sudo apt install musl-tools
-          - run: make clean && STD="-std=c2x" CC=musl-gcc make
-          - run: mv smolbox smolbox-musl-x86_64
-          - uses: actions/upload-artifact@v7
-            with:
-                name: smolbox-musl-x86_64
-                path: smolbox-musl-x86_64
-                if-no-files-found: error
-                archive: false
-
-          - run: make clean && STD="-std=c2x -static" CC=musl-gcc make
-          - run: mv smolbox smolbox-static-x86_64
-          - uses: actions/upload-artifact@v7
-            with:
-                name: smolbox-static-x86_64
-                path: smolbox-static-x86_64
                 if-no-files-found: error
                 archive: false
