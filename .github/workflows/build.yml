@@ -7,6 +7,8 @@ jobs:
         runs-on: ubuntu-latest
         steps:
           - uses: actions/checkout@main
+            with:
+                submodules: true
           - run: make
           - run: make build-deb
           - run: mv smolbox smolbox-glibc-x86_64
