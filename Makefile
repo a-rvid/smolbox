@@ -3,7 +3,7 @@ CC?=gcc
 
 CFLAGS += -std=c11 -Wall -Wextra -Oz                          \
 	  -Ilib/linux/tools/include/nolibc                    \
-          -fcf-protection=none                                \
+          -fcf-protection=none -flto                          \
 	  -fno-asm -nostdlib -ffreestanding                   \
 	  -fno-ident -fno-asynchronous-unwind-tables          \
 	  -fno-stack-protector
