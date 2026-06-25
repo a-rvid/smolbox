@@ -3,6 +3,7 @@
 
 // sync
 int sync(int argc, char **argv) {
+  UNUSED_ARGUMENTS();
   syscall(__NR_sync);
   return 0;
 }
