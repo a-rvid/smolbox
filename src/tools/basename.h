@@ -10,7 +10,6 @@ int basenamecmd(int argc, char **argv) {
     switch(opt) {
 
     case 'a':
-      // Not implemented yet
       multiple = true;
       break;
     case 's':
