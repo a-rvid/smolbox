@@ -12,9 +12,16 @@ jobs:
           - uses: actions/checkout@main
             with:
                 submodules: true
-          - run: make
+
+          - name: install dependencies
+            run: sudo apt update -y && sudo apt install -y gcc-arm-linux-gnueabihf
+
+          - name: build for x86_64
+            run: make
+
           - run: make build-deb
           - run: mv smolbox smolbox-x86_64
+
           - uses: actions/upload-artifact@v7
             with:
                 name: smolbox-x86_64
@@ -27,3 +34,6 @@ jobs:
                 path: smolbox-x86_64.deb
                 if-no-files-found: error
                 archive: false
+
+          - name: build for arm
+            run: CC=arm-linux-gnueabihf-gcc make
