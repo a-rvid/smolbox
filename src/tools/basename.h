@@ -1,12 +1,12 @@
 #include "../getopt.h"
+#include <stdio.h>
 
 int basenamecmd(int argc, char **argv, bool offset) {
   int opt;
   bool multiple = false;
   char returnc = '\n';
-  char suffix[NAME_MAX] = {0};
 
-  while((opt = mygetopt(argc - offset, argv + offset, "as:z")) != -1) {
+  while((opt = mygetopt(argc - offset, argv + offset, "azs:")) != -1) {
     switch(opt) {
 
     case 'a':
@@ -14,7 +14,6 @@ int basenamecmd(int argc, char **argv, bool offset) {
       multiple = true;
       break;
     case 's':
-      strncat(suffix, optarg, sizeof(suffix));
       multiple = true;
       break;
     case 'z':
@@ -29,20 +28,23 @@ int basenamecmd(int argc, char **argv, bool offset) {
     }
   }
 
-  char *out = basename(argv[offset + optind]);
-  unsigned int out_len = strlen(out);
-  const unsigned int suffix_len = strlen(suffix);
+  const unsigned int real_argc = argc - offset;
+  const unsigned int paths = multiple ? real_argc - optind : 1;
+  const unsigned int suffix_len = optarg ? strlen(optarg) : 0;
 
-  if (out_len >= suffix_len && strcmp(out + out_len - suffix_len, suffix) == 0) {
-    out_len -= suffix_len;
-    out[out_len] = '\0';
+  for (unsigned int i = 0; i < paths; i++) {
+    if (offset + optind + i >= (unsigned)argc) break;
+    char *out = basename(argv[offset + optind + i]);
+    unsigned int out_len = strlen(out);
+
+    if (suffix_len && out_len >= suffix_len && strcmp(out + out_len - suffix_len, optarg) == 0) {
+        out_len -= suffix_len;
+        out[out_len] = '\0';
+    }
+
+    fputs(out, stdout);
+    putc(returnc, stdout);
   }
 
-  struct iovec output[2] = {
-    { out, out_len },
-    { &returnc, 1 }
-  };
-
-  writev(1, output, 2);
   return 0;
 }
