@@ -7,7 +7,7 @@ typedef int (*cmp_func_t)(const void *a, const void *b);
 
 #include "bsearch.h"
 
-#define UNUSED_ARGUMENTS() (void)argc; (void)argv; (void)offset;
+#define UNUSED_ARGUMENTS() (void)argc; (void)argv;
 
 void *bsearch(const void *key, const void *base, size_t nmemb, size_t size, int (*compar)(const void *, const void *)) {
     return __inline_bsearch(key, base, nmemb, size, compar);

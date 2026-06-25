@@ -1,14 +1,14 @@
 #include <sys/types.h>
 
-int sleepcmd(int argc, char **argv, bool offset) {
+int sleepcmd(int argc, char **argv) {
   UNUSED_ARGUMENTS();
-  if (argc < 2 + offset) {
+  if (argc < 2) {
     fputs("sleep: missing operand\n", stderr);
     return 1;
   }
 
   const struct timespec time = {
-    .tv_sec = atoi(argv[1 + offset]),
+    .tv_sec = atoi(argv[1]),
     .tv_nsec = 0
   };
 

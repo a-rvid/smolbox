@@ -1,4 +1,4 @@
-int printenv(int argc, char **argv, bool offset) {
+int printenv(int argc, char **argv) {
   UNUSED_ARGUMENTS();
   extern char **environ;
   if (!environ) return 0;

@@ -20,7 +20,7 @@ char *optarg;
 int optind = 1, opterr = 1, optopt;
 
 static __attribute__((unused))
-int mygetopt(int argc, char * const argv[], const char *optstring)
+int getopt(int argc, char * const argv[], const char *optstring)
 {
 	static int __optpos;
 	int i;

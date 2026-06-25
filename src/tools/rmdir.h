@@ -2,12 +2,12 @@
 #include <errno.h>
 
 // TODO: Implement --ignore-fail-on-empty, --parent and --verbose
-int rmdirectory(int argc, char **argv, bool offset) {
+int rmdirectory(int argc, char **argv) {
   UNUSED_ARGUMENTS();
 
-  if (argc > 1 + offset) {
-    if (rmdir(argv[1 + offset]) != 0) {
-      fputs("rmdir", stderr);
+  if (argc > 1) {
+    if (rmdir(argv[1]) != 0) {
+      fputs(argv[0], stderr);
       fputs(strerror(errno), stderr);
     };
   }

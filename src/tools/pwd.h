@@ -1,4 +1,4 @@
-int pwd(int argc, char **argv, bool offset) {
+int pwd(int argc, char **argv) {
   UNUSED_ARGUMENTS();
 
   char cwd[PATH_MAX];

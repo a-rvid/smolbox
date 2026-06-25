@@ -20,6 +20,7 @@ static const char help[] =
 
 int main(int argc, char *argv[], char *envp[]) {
   (void)envp;
+
   for (int i = 0; i < 2 && i < argc; i++) {
     const char *key = basename(argv[i]);
     errno = 0;
@@ -32,8 +33,9 @@ int main(int argc, char *argv[], char *envp[]) {
         return 127;
       }
     } else {
-      argv[0] = argv[i];
-      return result->handler(argc, argv, i);
+      argv += i;
+      argc -= i;
+      return result->handler(argc, argv);
     }
   }
   command_list(' ');

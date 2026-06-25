@@ -12,8 +12,7 @@
 
 typedef struct {
   char *argument;
-  int (*handler)(int argc, char **argv,
-                 bool offset); // function returning int with arguments
+  int (*handler)(int argc, char **argv); // function returning int passing arguments
 } command;
 
 static const command commands[] = {
