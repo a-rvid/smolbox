@@ -33,7 +33,7 @@ static const command commands[] = {
 static const size_t num_commands = sizeof(commands) / sizeof(command);
 
 void command_list(char separator) {
-  for (int i = 0; i < num_commands; i++) {
+  for (int i = 0; i < (int)num_commands; i++) {
     fputs(commands[i].argument, stdout);
     fputc(separator, stdout);
   }

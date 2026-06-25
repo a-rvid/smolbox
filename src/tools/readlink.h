@@ -29,8 +29,8 @@ int readlink(int argc, char **argv) {
 
   int return_code = 0;
 
-  for (unsigned int i = 0; i < (argc - optind); i++) {
-    if (optind + i >= (unsigned)argc) break;
+  for (int i = 0; i < (argc - optind); i++) {
+    if (optind + i >= argc) break;
     char out[PATH_MAX] = {0};
     syscall(__NR_readlink, argv[optind + i], out, sizeof(out) -1);
 
