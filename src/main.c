@@ -159,6 +159,7 @@ int cmp(const void *a, const void *b) {
 }
 
 int main(int argc, char *argv[], char *envp[]) {
+  (void)envp;
   for (int i = 0; i < 2 && i < argc; i++) {
     const char *key = basename(argv[i]);
     errno = 0;
