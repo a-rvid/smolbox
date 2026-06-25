@@ -13,6 +13,7 @@
 #include "tools/yes.h"
 #include "tools/clear.h"
 #include "tools/rmdir.h"
+#include "tools/printenv.h"
 
 char **environ;
 
@@ -100,14 +101,6 @@ char **environ;
 /*   return 0; */
 /* } */
 
-/* int printenv(int argc, char **argv, bool offset) { */
-/*   extern char **environ; */
-/*   for (environ; *environ; ++environ) { */
-/*     puts(*environ); */
-/*   } */
-/*   return 0; */
-/* } */
-
 /* int pwd(int argc, char **argv, bool offset) { */
 /*   char cwd[PATH_MAX]; */
 /*   if (getcwd(cwd, sizeof(cwd)) != NULL) { */
@@ -140,27 +133,24 @@ typedef struct {
                  bool offset); // function returning int with arguments
 } command;
 
-#define COMMANDS                                                               \
-  X("clear", clear)                                                            \
-  X("rmdir", rmdirectory)                                                      \
-  X("yes", yes)
-  /* X("ls", ls)                                                                  \ */
-  /* X("nice", niceness)                                                          \ */
-  /* X("printenv", printenv)                                                      \ */
-  /* X("pwd", pwd)                                                                \ */
-  /* X("rmdir", rmdirectory)                                                      \ */
-  /* X("whoami", whoami)                                                          \ */
-
-#define X(argument, handler) {argument, handler},
-static const command commands[] = {COMMANDS};
-#undef X
-
-#define X(argument, handler) argument " "
-static const char help[] =
-    NAME " version " VERSION "\n\nRegistered commands: " COMMANDS;
-#undef X
+static const command commands[] = {
+  {"clear", clear},
+  {"printenv", printenv},
+  {"rmdir", rmdirectory},
+  {"yes", yes}
+};
 
 static const size_t num_commands = sizeof(commands) / sizeof(command);
+
+static const char help[] =
+    NAME " version " VERSION "\n\nRegistered commands:";
+
+void command_list(char separator) {
+  for (int i = 0; i < num_commands; i++) {
+    fputs(commands[i].argument, stdout);
+    fputc(separator, stdout);
+  }
+}
 
 int cmp(const void *a, const void *b) {
   command *ca = (command *)a;
@@ -177,11 +167,14 @@ int main(int argc, char *argv[], char *envp[]) {
     if (result == NULL) {
       if (i == 1) {
         puts(help);
+        command_list(' ');
+        return 127;
       }
     } else {
       argv[0] = argv[i];
       return result->handler(argc, argv, i);
     }
   }
+  command_list(' ');
   return 0;
 }
