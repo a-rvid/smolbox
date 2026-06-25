@@ -1,5 +1,7 @@
 #include <string.h>
 
+#define SYS_sync 162
+
 typedef int (*cmp_func_t)(const void *a, const void *b);
 
 #include "bsearch.h"

@@ -14,6 +14,7 @@
 #include "tools/clear.h"
 #include "tools/rmdir.h"
 #include "tools/printenv.h"
+#include "tools/sync.h"
 
 char **environ;
 
@@ -137,6 +138,7 @@ static const command commands[] = {
   {"clear", clear},
   {"printenv", printenv},
   {"rmdir", rmdirectory},
+  {"sync", sync},
   {"yes", yes}
 };
 
