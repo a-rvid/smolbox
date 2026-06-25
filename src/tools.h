@@ -5,6 +5,7 @@
 #include "tools/true.h"
 #include "tools/false.h"
 #include "tools/clear.h"
+#include "tools/readlink.h"
 #include "tools/rmdir.h"
 #include "tools/printenv.h"
 #include "tools/sync.h"
@@ -21,6 +22,7 @@ static const command commands[] = {
   {"false", falsecmd},
   {"printenv", printenv},
   {"pwd", pwd},
+  {"readlink", readlink},
   {"rmdir", rmdirectory},
   {"sleep", sleepcmd},
   {"sync", sync},
