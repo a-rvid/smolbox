@@ -11,13 +11,15 @@
 /* #include <sys/resource.h> */
 #include "lib.h"
 #include "tools/yes.h"
+#include "tools/sleep.h"
+#include "tools/true.h"
+#include "tools/false.h"
 #include "tools/clear.h"
 #include "tools/rmdir.h"
 #include "tools/printenv.h"
 #include "tools/sync.h"
 #include "tools/pwd.h"
 
-char **environ;
 
 #define NAME "SmolBox"
 #define VERSION "v0.1.0"
@@ -137,10 +139,13 @@ typedef struct {
 
 static const command commands[] = {
   {"clear", clear},
+  {"false", falsecmd},
   {"printenv", printenv},
   {"pwd", pwd},
   {"rmdir", rmdirectory},
+  {"sleep", sleepcmd},
   {"sync", sync},
+  {"true", truecmd},
   {"yes", yes}
 };
 

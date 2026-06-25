@@ -1,8 +1,11 @@
 int pwd(int argc, char **argv, bool offset) {
   UNUSED_ARGUMENTS();
+
   char cwd[PATH_MAX];
-  if (syscall(__NR_getcwd, cwd, sizeof(cwd)) > 0) {
-    puts(cwd);
+  long len = syscall(__NR_getcwd, cwd, sizeof(cwd));
+  if (len > 0) {
+    cwd[len - 1] = '\n';  // getcwd includes null terminator, replace it
+    syscall(__NR_write, 1, cwd, len);
   } else {
     perror("getcwd");
     return 1;
