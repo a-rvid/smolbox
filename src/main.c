@@ -2,24 +2,15 @@
 /* #include <libgen.h> */
 /* #include <errno.h> */
 /* #include <pwd.h> */
+#define _NOLIBC_GETOPT_H
 #include <stdbool.h>
 #include <errno.h>
 #include <stdio.h>
+#include "tools.h"
 /* #include <stdlib.h> */
 /* #include <sys/stat.h> */
 /* #include <sys/types.h> */
 /* #include <sys/resource.h> */
-#include "lib.h"
-#include "tools/yes.h"
-#include "tools/sleep.h"
-#include "tools/true.h"
-#include "tools/false.h"
-#include "tools/clear.h"
-#include "tools/rmdir.h"
-#include "tools/printenv.h"
-#include "tools/sync.h"
-#include "tools/pwd.h"
-
 
 #define NAME "SmolBox"
 #define VERSION "v0.1.0"
@@ -131,41 +122,14 @@
 /*   return 1; */
 /* } */
 
-typedef struct {
-  char *argument;
-  int (*handler)(int argc, char **argv,
-                 bool offset); // function returning int with arguments
-} command;
-
-static const command commands[] = {
-  {"clear", clear},
-  {"false", falsecmd},
-  {"printenv", printenv},
-  {"pwd", pwd},
-  {"rmdir", rmdirectory},
-  {"sleep", sleepcmd},
-  {"sync", sync},
-  {"true", truecmd},
-  {"yes", yes}
-};
-
-static const size_t num_commands = sizeof(commands) / sizeof(command);
-
-static const char help[] =
-    NAME " version " VERSION "\n\nRegistered commands:";
-
-void command_list(char separator) {
-  for (int i = 0; i < num_commands; i++) {
-    fputs(commands[i].argument, stdout);
-    fputc(separator, stdout);
-  }
-}
-
 int cmp(const void *a, const void *b) {
   command *ca = (command *)a;
   command *cb = (command *)b;
   return strcmp(ca->argument, cb->argument);
 }
+
+static const char help[] =
+    NAME " version " VERSION "\n\nRegistered commands:";
 
 int main(int argc, char *argv[], char *envp[]) {
   (void)envp;
