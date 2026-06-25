@@ -7,7 +7,8 @@ int rmdirectory(int argc, char **argv, bool offset) {
 
   if (argc > 1 + offset) {
     if (rmdir(argv[1 + offset]) != 0) {
-      perror("rmdir");
+      fputs("rmdir", stderr);
+      fputs(strerror(errno), stderr);
     };
   }
 
