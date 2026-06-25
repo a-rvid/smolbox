@@ -1,6 +1,6 @@
 #include <string.h>
 
-#define SYS_sync 162
+#define PATH_MAX 4096
 
 typedef int (*cmp_func_t)(const void *a, const void *b);
 

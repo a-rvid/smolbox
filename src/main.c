@@ -15,6 +15,7 @@
 #include "tools/rmdir.h"
 #include "tools/printenv.h"
 #include "tools/sync.h"
+#include "tools/pwd.h"
 
 char **environ;
 
@@ -137,6 +138,7 @@ typedef struct {
 static const command commands[] = {
   {"clear", clear},
   {"printenv", printenv},
+  {"pwd", pwd},
   {"rmdir", rmdirectory},
   {"sync", sync},
   {"yes", yes}

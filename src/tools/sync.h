@@ -3,6 +3,6 @@
 
 // sync
 int sync(int argc, char **argv, bool offset) {
-  syscall(SYS_sync);
+  syscall(__NR_sync);
   return 0;
 }
