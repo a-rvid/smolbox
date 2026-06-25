@@ -36,4 +36,4 @@ jobs:
                 archive: false
 
           - name: build for arm
-            run: CC=arm-linux-gnueabihf-gcc make
+            run: OBJCOPY=arm-linux-gnueabihf-objcopy CC=arm-linux-gnueabihf-gcc make

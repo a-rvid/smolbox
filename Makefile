@@ -12,6 +12,8 @@ LDFLAGS = -Wl,-z,noseparate-code               \
           -Wl,-z,max-page-size=0x1000          \
           -Wl,--omagic
 
+OBJCOPY ?= objcopy
+
 BIN=smolbox
 
 DESTDIR?=
@@ -20,7 +22,7 @@ INSTALLDIR?=$(PREFIX)/bin
 
 all:
 	$(CC) $(CFLAGS) src/main.c -s -static -o $(BIN) $(LDFLAGS)
-	objcopy --strip-section-headers $(BIN)
+	$(OBJCOPY) --strip-section-headers $(BIN)
 
 debug:
 	$(CC) $(CFLAGS) src/main.c -ggdb -static -o $(BIN) $(LDFLAGS)
