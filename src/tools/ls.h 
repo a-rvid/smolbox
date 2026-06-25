@@ -1,0 +1,32 @@
+/* int ls(int argc, char **argv, bool offset) { */
+/*   char dirs[argc - 1 - offset]; */
+/*   bool longer = false, all = false, almost_all = false, human_readable = false; */
+
+/*   static struct option long_options[] = { */
+/*       {"long", no_argument, NULL, 'l'}, */
+/*       {"all", no_argument, NULL, 'a'}, */
+/*       {"almost-all", no_argument, NULL, 'A'}, */
+/*       {"human-readable", no_argument, NULL, 'h'}, */
+/*       {NULL, 0, NULL, 0}}; */
+/*   int opt; */
+/*   while ((opt = getopt_long(argc, argv, "laAh", long_options, NULL)) != -1) { */
+/*     switch (opt) { */
+/*     case 'l': */
+/*       longer = true; */
+/*       break; */
+/*     case 'a': */
+/*       all = true; */
+/*       break; */
+/*     case 'A': */
+/*       almost_all = true; */
+/*       break; */
+/*     case 'h': */
+/*       human_readable = true; */
+/*       break; */
+/*     } */
+/*   } */
+/*   /\* printf("Long: %d, all: %d, almost all: %d, human readable: %d\n", longer, */
+/*    * all, almost_all, human_readable); *\/ */
+
+/*   return 0; */
+/* } */
