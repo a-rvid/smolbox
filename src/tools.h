@@ -11,23 +11,27 @@
 #include "tools/sync.h"
 #include "tools/pwd.h"
 
+#define EXAMPLE_USAGE "Help command has not been created for this function."
+
 typedef struct {
   char *argument;
   int (*handler)(int argc, char **argv); // function returning int passing arguments
+  char *help;
+  int help_len;
 } command;
 
 static const command commands[] = {
-  {"basename", basenamecmd},
-  {"clear", clear},
-  {"false", falsecmd},
-  {"printenv", printenv},
-  {"pwd", pwd},
-  {"readlink", readlink},
-  {"rmdir", rmdirectory},
-  {"sleep", sleepcmd},
-  {"sync", sync},
-  {"true", truecmd},
-  {"yes", yes}
+  {"basename", basenamecmd, EXAMPLE_USAGE, sizeof(EXAMPLE_USAGE)},
+  {"clear", clear, EXAMPLE_USAGE, sizeof(EXAMPLE_USAGE)},
+  {"false", falsecmd, EXAMPLE_USAGE, sizeof(EXAMPLE_USAGE)},
+  {"printenv", printenv, EXAMPLE_USAGE, sizeof(EXAMPLE_USAGE)},
+  {"pwd", pwd, EXAMPLE_USAGE, sizeof(EXAMPLE_USAGE)},
+  {"readlink", readlink, EXAMPLE_USAGE, sizeof(EXAMPLE_USAGE)},
+  {"rmdir", rmdirectory, EXAMPLE_USAGE, sizeof(EXAMPLE_USAGE)},
+  {"sleep", sleepcmd, EXAMPLE_USAGE, sizeof(EXAMPLE_USAGE)},
+  {"sync", sync, EXAMPLE_USAGE, sizeof(EXAMPLE_USAGE)},
+  {"true", truecmd, EXAMPLE_USAGE, sizeof(EXAMPLE_USAGE)},
+  {"yes", yes, EXAMPLE_USAGE, sizeof(EXAMPLE_USAGE)}
 };
 
 static const size_t num_commands = sizeof(commands) / sizeof(command);

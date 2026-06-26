@@ -22,6 +22,11 @@ int main(int argc, char *argv[], char *envp[]) {
   } else {
     argv += cmdind;
     argc -= cmdind;
+    if(strcmp(argv[1], "--help") == 0) {
+      write(1, result->help, result->help_len);
+      return 0;
+    }
+
     return result->handler(argc, argv);
   }
   command_list(' ');
