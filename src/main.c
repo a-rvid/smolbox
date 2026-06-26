@@ -9,34 +9,20 @@
 
 #define PATH_MAX 4096
 
-int cmp(const void *a, const void *b) {
-  command *ca = (command *)a;
-  command *cb = (command *)b;
-  return strcmp(ca->argument, cb->argument);
-}
-
 static const char help[] =
     NAME " version " VERSION "\n\nRegistered commands:";
 
 int main(int argc, char *argv[], char *envp[]) {
   (void)envp;
 
-  for (int i = 0; i < 2 && i < argc; i++) {
-    const char *key = basename(argv[i]);
-    errno = 0;
-    command *result = bsearch(&key, commands, num_commands, sizeof(command), cmp);
-
-    if (result == NULL) {
-      if (i == 1) {
-        puts(help);
-        command_list(' ');
-        return 127;
-      }
-    } else {
-      argv += i;
-      argc -= i;
-      return result->handler(argc, argv);
-    }
+  command *result = enumerate_commands(argc, argv, 2);
+  if (result == NULL) {
+    puts(help);
+    command_list(' ');
+  } else {
+    argv += cmdind;
+    argc -= cmdind;
+    return result->handler(argc, argv);
   }
   command_list(' ');
   return 0;

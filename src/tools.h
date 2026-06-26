@@ -38,3 +38,21 @@ void command_list(char separator) {
     fputc(separator, stdout);
   }
 }
+
+int cmp(const void *a, const void *b) {
+  command *ca = (command *)a;
+  command *cb = (command *)b;
+  return strcmp(ca->argument, cb->argument);
+}
+
+int cmdind;
+command *enumerate_commands(int argc, char **argv, int times) {
+  for (cmdind = 0; cmdind <= times && cmdind < argc; cmdind++) {
+    const char *key = basename(argv[cmdind]);
+    errno = 0;
+    command *result = bsearch(&key, commands, num_commands, sizeof(command), cmp);
+
+    if (result) return result;
+  }
+  return NULL;
+}
