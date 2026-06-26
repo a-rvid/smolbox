@@ -6,11 +6,16 @@ CFLAGS += -std=c11 -Wall -Wextra -Oz                          \
           -fcf-protection=none -flto                          \
 	  -fno-asm -nostdlib -ffreestanding                   \
 	  -fno-ident -fno-asynchronous-unwind-tables          \
-	  -fno-stack-protector
+	  -fno-stack-protector                                \
+	  -fno-unwind-tables -fmerge-all-constants            \
+	  -ffunction-sections -fdata-sections
 
 LDFLAGS = -Wl,-z,noseparate-code               \
           -Wl,-z,max-page-size=0x1000          \
-          -Wl,--omagic
+          -Wl,--omagic                         \
+          -Wl,--build-id=none                  \
+          -Wl,--no-eh-frame-hdr                \
+          -Wl,--gc-sections
 
 OBJCOPY ?= objcopy
 
