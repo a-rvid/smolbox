@@ -29,6 +29,10 @@ all:
 	$(CC) $(CFLAGS) src/main.c -s -static -o $(BIN) $(LDFLAGS)
 	$(OBJCOPY) --strip-section-headers $(BIN)
 
+tiny:
+	$(CC) $(CFLAGS) -DSMOL_TINY src/main.c -s -static -o $(BIN) $(LDFLAGS)
+	$(OBJCOPY) --strip-section-headers $(BIN)
+
 debug:
 	$(CC) $(CFLAGS) src/main.c -ggdb -static -o $(BIN) $(LDFLAGS)
 
@@ -48,4 +52,4 @@ clean:
 	$(MAKE) clean-deb
 	rm -f smolbox
 
-.PHONY: install clean build-deb clean-deb dev
+.PHONY: all tiny debug install clean build-deb clean-deb dev

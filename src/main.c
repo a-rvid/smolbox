@@ -9,19 +9,24 @@
 
 #define PATH_MAX 4096
 
+#ifndef SMOL_TINY
 static const char help[] =
     NAME " version " VERSION "\n\nRegistered commands:";
+#endif
 
 int main(int argc, char *argv[], char *envp[]) {
   (void)envp;
 
   command *result = enumerate_commands(argc, argv, 2);
   if (result == NULL) {
+#ifndef SMOL_TINY
     puts(help);
+#endif
     command_list(' ');
   } else {
     argv += cmdind;
     argc -= cmdind;
+#ifndef SMOL_TINY
     if(argc > 1 && strcmp(argv[1], "--help") == 0) {
       size_t usage_len = strlen(result->usage);
       struct iovec iov[] = {
@@ -39,6 +44,7 @@ int main(int argc, char *argv[], char *envp[]) {
       writev(1, iov, sizeof(iov) / sizeof(iov[0]));
       return 0;
     }
+#endif
 
     return result->handler(argc, argv);
   }
