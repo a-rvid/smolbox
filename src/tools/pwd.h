@@ -1,5 +1,5 @@
-#define PWD_HELP "pwd: pwd\n\
-    Print the name of current working directory."
+#define PWD_ABOUT "Print the name of the current working directory."
+#define PWD_USAGE ""
 
 int pwd(int argc, char **argv) {
   UNUSED_ARGUMENTS();

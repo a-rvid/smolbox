@@ -11,27 +11,30 @@
 #include "tools/sync.h"
 #include "tools/pwd.h"
 
-#define EXAMPLE_USAGE "Help command has not been created for this function."
+#define USAGE BOLD_UNDERLINE "Usage:" RESET " "
+#define OPTIONS BOLD_UNDERLINE "Options:" RESET "\n"
+#define HELP_OPTION "  --help    display this help\n"
 
 typedef struct {
   char *argument;
-  int (*handler)(int argc, char **argv); // function returning int passing arguments
-  char *help;
-  int help_len;
+  int (*handler)(int argc, char **argv);
+  char *about;
+  char *usage;
+  char *options;
 } command;
 
 static const command commands[] = {
-  {"basename", basenamecmd, EXAMPLE_USAGE, sizeof(EXAMPLE_USAGE)},
-  {"clear", clear, EXAMPLE_USAGE, sizeof(EXAMPLE_USAGE)},
-  {"false", falsecmd, EXAMPLE_USAGE, sizeof(EXAMPLE_USAGE)},
-  {"printenv", printenv, EXAMPLE_USAGE, sizeof(EXAMPLE_USAGE)},
-  {"pwd", pwd, PWD_HELP, sizeof(PWD_HELP)},
-  {"readlink", readlink, EXAMPLE_USAGE, sizeof(EXAMPLE_USAGE)},
-  {"rmdir", rmdirectory, EXAMPLE_USAGE, sizeof(EXAMPLE_USAGE)},
-  {"sleep", sleepcmd, SLEEP_HELP, sizeof(SLEEP_HELP)},
-  {"sync", sync, EXAMPLE_USAGE, sizeof(EXAMPLE_USAGE)},
-  {"true", truecmd, EXAMPLE_USAGE, sizeof(EXAMPLE_USAGE)},
-  {"yes", yes, EXAMPLE_USAGE, sizeof(EXAMPLE_USAGE)}
+  {"basename", basenamecmd, BASENAME_ABOUT, BASENAME_USAGE, BASENAME_OPTIONS},
+  {"clear",    clear,       CLEAR_ABOUT,    CLEAR_USAGE,    ""},
+  {"false",    falsecmd,    FALSE_ABOUT,    FALSE_USAGE,    ""},
+  {"printenv", printenv,    PRINTENV_ABOUT, PRINTENV_USAGE, PRINTENV_OPTIONS},
+  {"pwd",      pwd,         PWD_ABOUT,      PWD_USAGE,      ""},
+  {"readlink", readlink,    READLINK_ABOUT, READLINK_USAGE, READLINK_OPTIONS},
+  {"rmdir",    rmdirectory, RMDIR_ABOUT,    RMDIR_USAGE,    ""},
+  {"sleep",    sleepcmd,    SLEEP_ABOUT,    SLEEP_USAGE,    ""},
+  {"sync",     sync,        SYNC_ABOUT,     SYNC_USAGE,     ""},
+  {"true",     truecmd,     TRUE_ABOUT,     TRUE_USAGE,     ""},
+  {"yes",      yes,         YES_ABOUT,      YES_USAGE,      ""}
 };
 
 static const size_t num_commands = sizeof(commands) / sizeof(command);

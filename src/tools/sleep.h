@@ -1,7 +1,7 @@
 #include <sys/types.h>
 
-#define SLEEP_HELP "Pause for NUMBER seconds.\n\n\
-    " BOLD_UNDERLINE "Usage:" RESET " sleep [NUMBER]"
+#define SLEEP_ABOUT "Pause for NUMBER seconds."
+#define SLEEP_USAGE "NUMBER"
 
 int sleepcmd(int argc, char **argv) {
   UNUSED_ARGUMENTS();
