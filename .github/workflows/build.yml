@@ -22,25 +22,40 @@ jobs:
           - run: make build-deb
           - run: mv smolbox smolbox-x86_64
 
+          - name: build for x86_64 (tiny)
+            run: make tiny && mv smolbox smolbox-tiny-x86_64
+
           - uses: actions/upload-artifact@v7
             with:
-                name: smolbox-x86_64
                 path: smolbox-x86_64
                 if-no-files-found: error
                 archive: false
+
           - uses: actions/upload-artifact@v7
             with:
-                name: smolbox-x86_64.deb
+                path: smolbox-tiny-x86_64
+                if-no-files-found: error
+                archive: false
+
+          - uses: actions/upload-artifact@v7
+            with:
                 path: smolbox-x86_64.deb
                 if-no-files-found: error
                 archive: false
 
           - name: build for arm
-            run: OBJCOPY=arm-linux-gnueabihf-objcopy CC=arm-linux-gnueabihf-gcc make
-          - run: cp smolbox smolbox-arm
+            run: OBJCOPY=arm-linux-gnueabihf-objcopy CC=arm-linux-gnueabihf-gcc make && mv smolbox smolbox-arm
+          - name: build for arm (tiny)
+            run: OBJCOPY=arm-linux-gnueabihf-objcopy CC=arm-linux-gnueabihf-gcc make tiny && mv smolbox smolbox-tiny-arm
+
           - uses: actions/upload-artifact@v7
             with:
-                name: smolbox-arm
                 path: smolbox-arm
+                if-no-files-found: error
+                archive: false
+
+          - uses: actions/upload-artifact@v7
+            with:
+                path: smolbox-tiny-arm
                 if-no-files-found: error
                 archive: false
