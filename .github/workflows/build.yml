@@ -37,3 +37,10 @@ jobs:
 
           - name: build for arm
             run: OBJCOPY=arm-linux-gnueabihf-objcopy CC=arm-linux-gnueabihf-gcc make
+          - run: cp smolbox smolbox-arm
+          - uses: actions/upload-artifact@v7
+            with:
+                name: smolbox-arm
+                path: smolbox-arm
+                if-no-files-found: error
+                archive: false
