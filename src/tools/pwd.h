@@ -1,3 +1,6 @@
+#define PWD_HELP "pwd: pwd\n\
+    Print the name of current working directory."
+
 int pwd(int argc, char **argv) {
   UNUSED_ARGUMENTS();
 
@@ -7,7 +10,7 @@ int pwd(int argc, char **argv) {
     cwd[len - 1] = '\n';  // getcwd includes null terminator, replace it
     write(1, cwd, len);
   } else {
-    fputs("getcwd", stderr);
+    fputs(argv[0], stderr);
     fputs(strerror(errno), stderr);
     return 1;
   }

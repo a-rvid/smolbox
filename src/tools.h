@@ -25,10 +25,10 @@ static const command commands[] = {
   {"clear", clear, EXAMPLE_USAGE, sizeof(EXAMPLE_USAGE)},
   {"false", falsecmd, EXAMPLE_USAGE, sizeof(EXAMPLE_USAGE)},
   {"printenv", printenv, EXAMPLE_USAGE, sizeof(EXAMPLE_USAGE)},
-  {"pwd", pwd, EXAMPLE_USAGE, sizeof(EXAMPLE_USAGE)},
+  {"pwd", pwd, PWD_HELP, sizeof(PWD_HELP)},
   {"readlink", readlink, EXAMPLE_USAGE, sizeof(EXAMPLE_USAGE)},
   {"rmdir", rmdirectory, EXAMPLE_USAGE, sizeof(EXAMPLE_USAGE)},
-  {"sleep", sleepcmd, EXAMPLE_USAGE, sizeof(EXAMPLE_USAGE)},
+  {"sleep", sleepcmd, SLEEP_HELP, sizeof(SLEEP_HELP)},
   {"sync", sync, EXAMPLE_USAGE, sizeof(EXAMPLE_USAGE)},
   {"true", truecmd, EXAMPLE_USAGE, sizeof(EXAMPLE_USAGE)},
   {"yes", yes, EXAMPLE_USAGE, sizeof(EXAMPLE_USAGE)}
