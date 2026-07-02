@@ -37,3 +37,11 @@ This is a multicall binary, meaning that functions are shared between the differ
 You can rename (or symlink) the multicall binary to the desired command, and the program will think it's executing `pwd` if it's called `pwd`. You can also run `smolbox pwd` and it will print the current working directory.
 
 A great example of how optimizations have paid off is comparing against other implementations. The `pwd` function here calls 2 syscalls, `getcwd` and `write`, while standard coreutils calls around 132 syscalls (some of them are linking-related, the rest doesn't make sense).
+
+## Compromises
+
+To reduce filesize I've done some major compromises. Error handling and error messages take up quite a lot of filesize, so for some error messages I have decided not to explain all of them.
+
+You'll recieve a error message with a errno number, which you afterwards can google.
+
+I decided to let help messages be a thing, but if you want to disable them you can build with `make tiny`.
