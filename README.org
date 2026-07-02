@@ -4,7 +4,7 @@ smolbox is a rewrite of standard Linux utilities, such as GNU coreutils. \\
 It aims to be as optimized and tiny as possible. This of course comes with compromises. \\
 It is written in freestanding, nostd C without any libc, meaning completely static, less syscalls, and smaller but faster binaries.
 
-* building
+** building
 This project is using make build system, meaning it's trivial to build. \\
 
 You will need the packages ~gnumake~ and a c compiler (~gcc~).
@@ -17,7 +17,7 @@ If you want to package for Debian (x86_64):
 make build-deb
 #+END_SRC
 
-* optimizations
+** optimizations
 
 This project has very strict rules for the code to optimize it. \\
 For instance the ~printf~ family of functions has been completely excluded, as it adds about ~1500 bytes~ in the code. \\
@@ -26,5 +26,6 @@ While the core target of the project is as small as possible, optimization and r
 
 This is a multicall binary, meaning that functions are shared between the different commands, and all commands are the same binary. This greatly reduces filesize. \\
 You can rename (or symlink) the multicall binary to the desired command, that way the program thinks it's executing ~pwd~ if it's called pwd. You can also run ~smolbox pwd~ and it will print current working directory. \\
+
 
 A great example of how optimizations have paid off is comparing others code. My pwd function calls 2 syscalls, ~getcwd~ and ~write~, while standard coreutils called around 132 syscalls (some of them are linking, the rest doesn't make sense.).
