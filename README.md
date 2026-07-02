@@ -45,3 +45,9 @@ To reduce filesize I've done some major compromises. Error handling and error me
 You'll recieve a error message with a errno number, which you afterwards can google.
 
 I decided to let help messages be a thing, but if you want to disable them you can build with `make tiny`.
+
+## TODO
+
+* error checking prints eg. `pwdNo such file or directory` (implement perror)
+* yes ignores multiple arguments
+* Yes has bug checking arguments (see ternary char *print)
