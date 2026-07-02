@@ -22,6 +22,8 @@ If you want to package for Debian (x86_64):
 make build-deb
 ```
 
+Alternatively you can download pre-built binaries for x86_64 and arm [here](https://github.com/a-rvid/smolbox/actions/workflows/build.yml).
+
 ## Optimizations
 
 This project has very strict rules for the code to optimize it.
