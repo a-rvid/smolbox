@@ -1,0 +1,26 @@
+***************
+smolbox
+---------------
+
+smolbox is a rewrite of standard Linux utilities, such as GNU coreutils.
+It aims to be as optimized and tiny as possible. This of course comes with compromises.
+It is written in freestanding, nostd C without any libc, meaning completely static, less syscalls, and smaller but faster binaries.
+
+***************
+building
+---------------
+
+This project is using make build system, meaning it's trivial to build.
+You will need the packages `gnumake` and a c compiler (`gcc`).
+```
+make
+```
+
+If you want to package for Debian (x86_64):
+```
+make build-deb
+```
+
+***************
+optimizations
+---------------
