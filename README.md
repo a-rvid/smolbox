@@ -4,7 +4,7 @@ smolbox is a rewrite of standard Linux utilities, such as GNU coreutils.
 
 It aims to be as optimized and tiny as possible. This of course comes with compromises.
 
-It is written in freestanding, nostd C without any libc, meaning completely static, less syscalls, and smaller but faster binaries.
+It is written in C without any libc, meaning completely static, less syscalls, and smaller but faster binaries.
 
 ## Building
 
