@@ -22,7 +22,7 @@ If you want to package for Debian (x86_64):
 make build-deb
 ```
 
-**Alternatively you can download pre-built binaries for x86_64 and arm [here](https://github.com/a-rvid/smolbox/actions/workflows/build.yml).**
+**Alternatively you can download pre-built binaries for x86_64 and arm [here](https://github.com/a-rvid/smolbox/actions/workflows/build.yml).** Choose "artifacts" and download the static binary or debian package for your system.
 
 ## Optimizations
 
