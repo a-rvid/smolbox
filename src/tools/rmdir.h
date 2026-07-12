@@ -1,5 +1,5 @@
-#include <unistd.h>
 #include <errno.h>
+#include <unistd.h>
 
 #define RMDIR_ABOUT "Remove the DIRECTORY(ies), if they are empty."
 #define RMDIR_USAGE "DIRECTORY..."

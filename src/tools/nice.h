@@ -18,7 +18,8 @@
 /*   fake_argv[0] = argv[0]; */
 /*   fake_argv[1] = argv[1+offset]; */
 /*   // Segmentation Fault here!!! */
-/*   if ((opt = getopt_long(2, fake_argv, "n:", long_options, NULL)) == 'n') { */
+/*   if ((opt = getopt_long(2, fake_argv, "n:", long_options, NULL)) == 'n') {
+ */
 /*     outnice += atoi(optarg); */
 /*   } else { */
 /*     outnice += 10; */
