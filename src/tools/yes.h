@@ -2,9 +2,16 @@
 #define YES_USAGE "[STRING]..."
 
 int yes(int argc, char **argv) {
-  UNUSED_ARGUMENTS();
-  char *print = (argc > 2) ? argv[1] : "y";
-  for (;;) {
-    puts(print);
+  for(;;) {
+    if (argc >= 2) {
+        for (int i = 1; i < argc; i++) {
+            fputs(argv[i], stdout);
+            if (i != argc - 1) {
+              fputc(' ', stdout);
+            }
+        }
+    } else { fputc('y', stdout); }
+    fputc('\n', stdout);
   }
+  return 0;
 }

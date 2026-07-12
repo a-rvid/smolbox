@@ -49,6 +49,3 @@ I decided to let help messages be a thing, but if you want to disable them you c
 ## TODO
 
 * error checking prints eg. `pwdNo such file or directory` (implement perror)
-* yes ignores multiple arguments
-* Yes has bug checking arguments (see ternary char *print)
-* sleep atoi will always return 0 even if input is string 
