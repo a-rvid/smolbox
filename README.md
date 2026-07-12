@@ -12,7 +12,8 @@ This project is using the make build system, meaning it's trivial to build.
 
 You will need the packages `gnumake` and a C compiler (`gcc`).
 
-```
+```bash
+git submodule update --init --recursive --depth=1 // to fetch the nolibc library from kernel, may take a minute or two.
 make
 ```
 
