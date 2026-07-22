@@ -1,5 +1,8 @@
 #include <stddef.h>
+#include <unistd.h>
 #include <string.h>
+#include <sys/types.h>
+#include "bsearch.h"
 
 #define PATH_MAX 4096
 #define NAME_MAX 255
@@ -8,24 +11,25 @@
 #define BOLD "\033[1m"
 #define RESET "\033[0m"
 
-typedef int (*cmp_func_t)(const void *a, const void *b);
+#define perror(s) my_perror(s)
 
-#include "bsearch.h"
+void my_perror(const char *s) {
+  char *strerr = strerror(errno);
+
+  struct iovec iov[3] = {
+    {s, strlen(s)},
+    {": ", 3},
+    {strerr, strlen(strerr)},
+  };
+
+  writev(2, iov, 3);
+}
+
+typedef int (*cmp_func_t)(const void *a, const void *b);
 
 #define UNUSED_ARGUMENTS()                                                     \
   (void)argc;                                                                  \
   (void)argv;
-
-void *bsearch(const void *key, const void *base, size_t nmemb, size_t size,
-              int (*compar)(const void *, const void *)) {
-  return __inline_bsearch(key, base, nmemb, size, compar);
-};
-
-/* Force nolibc weak memset to be emitted: compiler synthesizes memset
- * calls from large zero-inits (e.g. char buf[PATH_MAX] = {0}) but on archs
- * without NOLIBC_ARCH_HAS_MEMSET the weak def is pruned before that pass. */
-__attribute__((used)) static void *(*const _keep_memset)(void *, int,
-                                                         size_t) = memset;
 
 char *basename(const char *filename) {
   char *p = strrchr(filename, '/');
