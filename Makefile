@@ -23,6 +23,8 @@ OBJCOPY ?= objcopy
 BIN=smolbox
 BUILDDIR=build
 
+$(shell rm -f src/lib/nolibc/hello.c)
+
 SRCS := $(shell find src -name '*.c')
 OBJS := $(patsubst src/%.c,$(BUILDDIR)/%.o,$(SRCS))
 
@@ -44,7 +46,6 @@ debug: $(OBJS)
 	$(CC) $(CFLAGS) $(OBJS) -static -o $(BIN) $(LDFLAGS)
 
 $(BUILDDIR)/%.o: src/%.c
-	rm src/lib/nolibc/hello.c -f
 	mkdir -p $(dir $@)
 	$(CC) $(CFLAGS) -c $< -o $@
 
