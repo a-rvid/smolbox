@@ -49,4 +49,4 @@ I decided to let help messages be a thing, but if you want to disable them you c
 
 ## TODO
 
-* error checking prints eg. `pwdNo such file or directory` (implement perror)
+* Somehow get flto to work to significantly decrease filesize (1500 bytes?).
