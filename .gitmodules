@@ -1,6 +1,6 @@
 [submodule "linux"]
 	url = https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git
 	branch = master
-[submodule "lib/nolibc"]
-	path = lib/nolibc
+[submodule "src/lib/nolibc"]
+	path = src/lib/nolibc
 	url = https://github.com/wtarreau/nolibc
