@@ -2,7 +2,7 @@ CC?=gcc
 
 
 CFLAGS += -std=c11 -Wall -Wextra -Oz                          \
-	  -Ilib/linux/tools/include/nolibc                    \
+	  -Ilib/nolibc                                        \
           -fcf-protection=none -flto                          \
 	  -fno-asm -nostdlib -ffreestanding                   \
 	  -fno-ident -fno-asynchronous-unwind-tables          \
