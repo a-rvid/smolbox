@@ -1,8 +1,8 @@
 CC?=gcc
 
-
 CFLAGS += -std=c11 -Wall -Wextra -Oz                          \
-	  -Ilib/nolibc                                        \
+	  -Isrc/lib/nolibc                                    \
+	  -Isrc/lib/others                                    \
           -fcf-protection=none -flto                          \
 	  -fno-asm -nostdlib -ffreestanding                   \
 	  -fno-ident -fno-asynchronous-unwind-tables          \
@@ -20,21 +20,32 @@ LDFLAGS = -Wl,-z,noseparate-code               \
 OBJCOPY ?= objcopy
 
 BIN=smolbox
+BUILDDIR=build
+
+SRCS := $(shell find src -name '*.c')
+OBJS := $(patsubst src/%.c,$(BUILDDIR)/%.o,$(SRCS))
 
 DESTDIR?=
 PREFIX?=/usr/local
 INSTALLDIR?=$(PREFIX)/bin
 
-all:
-	$(CC) $(CFLAGS) src/main.c -s -static -o $(BIN) $(LDFLAGS)
+all: $(OBJS)
+	$(CC) $(CFLAGS) $(OBJS) -s -static -o $(BIN) $(LDFLAGS)
 	$(OBJCOPY) --strip-section-headers $(BIN)
 
-tiny:
-	$(CC) $(CFLAGS) -DSMOL_TINY src/main.c -s -static -o $(BIN) $(LDFLAGS)
+tiny: CFLAGS += -DSMOL_TINY
+tiny: $(OBJS)
+	$(CC) $(CFLAGS) $(OBJS) -s -static -o $(BIN) $(LDFLAGS)
 	$(OBJCOPY) --strip-section-headers $(BIN)
 
-debug:
-	$(CC) $(CFLAGS) src/main.c -ggdb -static -o $(BIN) $(LDFLAGS)
+debug: CFLAGS += -ggdb
+debug: $(OBJS)
+	$(CC) $(CFLAGS) $(OBJS) -static -o $(BIN) $(LDFLAGS)
+
+$(BUILDDIR)/%.o: src/%.c
+	rm src/lib/nolibc/hello.c -f
+	mkdir -p $(dir $@)
+	$(CC) $(CFLAGS) -c $< -o $@
 
 install:
 	mkdir -p $(DESTDIR)$(INSTALLDIR)
@@ -50,6 +61,6 @@ clean-deb:
 
 clean:
 	$(MAKE) clean-deb
-	rm -f smolbox
+	rm -rf $(BUILDDIR) $(BIN)
 
 .PHONY: all tiny debug install clean build-deb clean-deb dev

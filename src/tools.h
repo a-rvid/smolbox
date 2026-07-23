@@ -1,3 +1,8 @@
+#include <stddef.h>
+#include <stdio.h>
+#include <basename.h>
+#include "bsearch.h"
+
 #include "lib.h"
 #include "tools/basename.h"
 #include "tools/clear.h"
@@ -41,7 +46,7 @@ static const command commands[] = {
     CMD("readlink", readlink, READLINK_ABOUT, READLINK_USAGE, READLINK_OPTIONS),
     CMD("rmdir", rmdirectory, RMDIR_ABOUT, RMDIR_USAGE, ""),
     CMD("sleep", sleepcmd, SLEEP_ABOUT, SLEEP_USAGE, SLEEP_OPTIONS),
-    CMD("sync", sync, SYNC_ABOUT, SYNC_USAGE, ""),
+    CMD("sync", sync, SYNC_ABOUT, "", ""),
     CMD("true", truecmd, TRUE_ABOUT, TRUE_USAGE, ""),
     CMD("yes", yes, YES_ABOUT, YES_USAGE, "")};
 
