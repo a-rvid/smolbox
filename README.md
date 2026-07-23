@@ -50,3 +50,4 @@ I decided to let help messages be a thing, but if you want to disable them you c
 ## TODO
 
 * Somehow get flto to work to significantly decrease filesize (1500 bytes?).
+* Fix arm
