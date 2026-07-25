@@ -37,9 +37,13 @@ int printenv(int argc, char **argv) {
     }
   } else {
     const char *value = getenv(argv[0 + optind]);
-    fputs(value, stdout);
-    if (newline) {
-      fputc('\n', stdout);
+    if (value) {
+      fputs(value, stdout);
+      if (newline) {
+        fputc('\n', stdout);
+      }
+    } else {
+      return 1;
     }
   }
 

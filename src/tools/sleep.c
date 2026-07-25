@@ -17,7 +17,7 @@ SUFFIX may be 's','m','h', or 'd', for seconds, minutes, hours, days."
 
 int sleepcmd(int argc, char **argv) {
   if (argc < 2) {
-    fputs("sleep: missing operand\n", stderr);
+    write(2, "sleep: missing operand\n", sizeof("sleep: missing operand\n") - 1);
     return 1;
   }
 
@@ -33,7 +33,7 @@ int sleepcmd(int argc, char **argv) {
   char *endptr;
   long seconds = strtol(arg, &endptr, 10);
   if (errno != 0 || endptr == arg) {
-    write(2, STRTOL_NAN_ERROR, sizeof(STRTOL_NAN_ERROR));
+    write(2, STRTOL_NAN_ERROR, sizeof(STRTOL_NAN_ERROR) - 1);
     return 1;
   }
 
@@ -45,7 +45,7 @@ int sleepcmd(int argc, char **argv) {
     char *frac_end;
     long value = strtol(frac_part, &frac_end, 10);
     if (errno != 0) {
-      write(2, STRTOL_NAN_ERROR, sizeof(STRTOL_NAN_ERROR));
+      write(2, STRTOL_NAN_ERROR, sizeof(STRTOL_NAN_ERROR) - 1);
       return 1;
     }
     int num_digits = (int)(frac_end - frac_part);
@@ -72,7 +72,7 @@ int sleepcmd(int argc, char **argv) {
     multiplier = 86400;
     break;
   default:
-    fputs("sleep: invalid time unit\n", stderr);
+    write(2, "sleep: invalid time unit\n", sizeof("sleep: invalid time unit\n") - 1);
     return 1;
   }
 

@@ -22,11 +22,12 @@ int main(int argc, char *argv[], char *envp[]) {
     puts(help);
 #endif
     command_list(' ');
+    return 0;
   } else {
     argv += cmdind;
     argc -= cmdind;
 #ifndef SMOL_TINY
-    if (argc > 1 && strcmp(argv[1], "--help") == 0 && result->argument != "echo") {
+    if (argc > 1 && strcmp(argv[1], "--help") == 0 && strcmp(result->argument, "echo") != 0) {
       size_t usage_len = strlen(result->usage);
       struct iovec iov[] = {
           {result->about, strlen(result->about)},
@@ -47,6 +48,4 @@ int main(int argc, char *argv[], char *envp[]) {
 
     return result->handler(argc, argv);
   }
-  command_list(' ');
-  return 0;
 }

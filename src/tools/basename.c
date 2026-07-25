@@ -20,7 +20,7 @@ int basenamecmd(int argc, char **argv) {
       returnc = '\0';
       break;
     case ':':
-      puts("option needs a value\n");
+      write(2, "option needs a value\n", sizeof("option needs a value\n") - 1);
       break;
     case '?':
       return 1;

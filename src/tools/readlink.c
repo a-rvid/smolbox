@@ -11,7 +11,7 @@
 int readlink(int argc, char **argv) {
   int opt;
   bool n = false;
-  char returnc;
+  char returnc = '\n';
 
   while ((opt = getopt(argc, argv, "nz")) != -1) {
     switch (opt) {
