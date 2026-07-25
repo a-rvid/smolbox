@@ -26,7 +26,7 @@ int main(int argc, char *argv[], char *envp[]) {
     argv += cmdind;
     argc -= cmdind;
 #ifndef SMOL_TINY
-    if (argc > 1 && strcmp(argv[1], "--help") == 0) {
+    if (argc > 1 && strcmp(argv[1], "--help") == 0 && result->argument != "echo") {
       size_t usage_len = strlen(result->usage);
       struct iovec iov[] = {
           {result->about, strlen(result->about)},

@@ -14,6 +14,7 @@
 #include "tools/sleep.h"
 #include "tools/sync.h"
 #include "tools/true.h"
+#include "tools/echo.h"
 #include "tools/yes.h"
 
 #define USAGE BOLD_UNDERLINE "Usage:" RESET " "
@@ -40,6 +41,7 @@ static const command commands[] = {
     CMD("basename", basenamecmd, BASENAME_ABOUT, BASENAME_USAGE,
         BASENAME_OPTIONS),
     CMD("clear", clear, CLEAR_ABOUT, CLEAR_USAGE, ""),
+    CMD("echo", echo, ECHO_ABOUT, ECHO_USAGE, ECHO_OPTIONS),
     CMD("false", falsecmd, FALSE_ABOUT, FALSE_USAGE, ""),
     CMD("printenv", printenv, PRINTENV_ABOUT, PRINTENV_USAGE, PRINTENV_OPTIONS),
     CMD("pwd", pwd, PWD_ABOUT, PWD_USAGE, ""),
