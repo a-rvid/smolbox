@@ -39,13 +39,14 @@ int readlink(int argc, char **argv) {
   for (int i = 0; i < (argc - optind); i++) {
     if (optind + i >= argc)
       break;
-    char out[PATH_MAX] = {0};
-    syscall(__NR_readlink, argv[optind + i], out, sizeof(out) - 1);
+    char out[PATH_MAX];
+    int len = (int)syscall(__NR_readlink, argv[optind + i], out, sizeof(out) - 1);
 
     if (errno != 0) {
       return_code = 1;
       continue;
     }
+    out[len] = '\0';
 
     fputs(out, stdout);
     putc(returnc, stdout);
