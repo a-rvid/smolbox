@@ -1,21 +1,22 @@
 CC?=gcc
 
-CFLAGS += -std=c11 -Wall -Wextra -Oz                          \
-	  -Isrc/lib/nolibc                                    \
-	  -Isrc/lib/others                                    \
-          -fcf-protection=none                                \
-	  -fno-asm -nostdlib -ffreestanding                   \
-	  -fno-ident -fno-asynchronous-unwind-tables          \
-	  -fno-stack-protector                                \
-	  -fno-unwind-tables -fmerge-all-constants            \
-	  -ffunction-sections -fdata-sections
+CFLAGS += -std=c11 -Wall -Wextra -Oz -flto           \
+	  -Isrc/lib/nolibc                           \
+	  -Isrc/lib/others                           \
+	  -fcf-protection=none                       \
+	  -fno-asm -nostdlib -ffreestanding          \
+	  -fno-ident -fno-asynchronous-unwind-tables \
+	  -fno-stack-protector                       \
+	  -fno-unwind-tables -fmerge-all-constants   \
+	  -ffunction-sections -fdata-sections        \
+	  -DNOLIBC_SKIP_ARCH_ASM
 
-LDFLAGS = -flto                                \
-          -Wl,-z,noseparate-code               \
-          -Wl,-z,max-page-size=0x1000          \
-          -Wl,--omagic                         \
-          -Wl,--build-id=none                  \
-          -Wl,--no-eh-frame-hdr                \
+LDFLAGS = -flto                          \
+          -Wl,-z,noseparate-code         \
+          -Wl,-z,max-page-size=0x1000    \
+          -Wl,--omagic                   \
+          -Wl,--build-id=none            \
+          -Wl,--no-eh-frame-hdr          \
           -Wl,--gc-sections
 
 OBJCOPY ?= objcopy
