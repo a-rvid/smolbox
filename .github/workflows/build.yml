@@ -22,9 +22,6 @@ jobs:
           - run: make build-deb
           - run: mv smolbox smolbox-x86_64
 
-          - name: build for x86_64 (tiny)
-            run: make clean && make tiny && mv smolbox smolbox-tiny-x86_64
-
           - uses: actions/upload-artifact@v7
             with:
                 path: smolbox-x86_64
@@ -33,13 +30,16 @@ jobs:
 
           - uses: actions/upload-artifact@v7
             with:
-                path: smolbox-tiny-x86_64
+                path: smolbox-x86_64.deb
                 if-no-files-found: error
                 archive: false
 
+          - name: build for x86_64 (tiny)
+            run: make clean && make tiny && mv smolbox smolbox-tiny-x86_64
+
           - uses: actions/upload-artifact@v7
             with:
-                path: smolbox-x86_64.deb
+                path: smolbox-tiny-x86_64
                 if-no-files-found: error
                 archive: false
 
