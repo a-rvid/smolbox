@@ -23,7 +23,7 @@ jobs:
           - run: mv smolbox smolbox-x86_64
 
           - name: build for x86_64 (tiny)
-            run: make tiny && mv smolbox smolbox-tiny-x86_64
+            run: make clean && make tiny && mv smolbox smolbox-tiny-x86_64
 
           - uses: actions/upload-artifact@v7
             with:
@@ -44,9 +44,9 @@ jobs:
                 archive: false
 
           - name: build for arm
-            run: OBJCOPY=arm-linux-gnueabihf-objcopy CC=arm-linux-gnueabihf-gcc make && mv smolbox smolbox-arm
+            run: make clean && OBJCOPY=arm-linux-gnueabihf-objcopy CC=arm-linux-gnueabihf-gcc make && mv smolbox smolbox-arm
           - name: build for arm (tiny)
-            run: OBJCOPY=arm-linux-gnueabihf-objcopy CC=arm-linux-gnueabihf-gcc make tiny && mv smolbox smolbox-tiny-arm
+            run: make clean && OBJCOPY=arm-linux-gnueabihf-objcopy CC=arm-linux-gnueabihf-gcc make tiny && mv smolbox smolbox-tiny-arm
 
           - uses: actions/upload-artifact@v7
             with:
