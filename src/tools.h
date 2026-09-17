@@ -44,7 +44,7 @@ static const command commands[] = {
     CMD("clear", clear, CLEAR_ABOUT, CLEAR_USAGE, ""),
     CMD("echo", echo, ECHO_ABOUT, ECHO_USAGE, ECHO_OPTIONS),
     CMD("false", falsecmd, FALSE_ABOUT, FALSE_USAGE, ""),
-    CMD("nice", nice, NICE_ABOUT, NICE_USAGE, NICE_OPTIONS)
+    CMD("nice", nice, NICE_ABOUT, NICE_USAGE, NICE_OPTIONS),
     CMD("printenv", printenv, PRINTENV_ABOUT, PRINTENV_USAGE, PRINTENV_OPTIONS),
     CMD("pwd", pwd, PWD_ABOUT, PWD_USAGE, ""),
     CMD("readlink", readlink, READLINK_ABOUT, READLINK_USAGE, READLINK_OPTIONS),
