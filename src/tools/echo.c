@@ -24,7 +24,6 @@ int echo(int argc, char **argv) {
   }
  done:
 
-
   for (int i = optind; i < argc; i++) {
     if (interpret) {
       for (const char *p = argv[i]; *p; p++) {
