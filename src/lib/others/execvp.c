@@ -4,9 +4,9 @@
 #include <errno.h>
 #include <limits.h>
 
-extern char **__environ;
+extern char **environ;
 
-int execvp(const char *file, char *const argv[], char *const envp[])
+int execvp(const char *file, char *const argv[])
 {
 	const char *p, *z, *path = getenv("PATH");
 	size_t l, k;
@@ -16,7 +16,7 @@ int execvp(const char *file, char *const argv[], char *const envp[])
 	if (!*file) return -1;
 
 	if (strchr(file, '/'))
-          return syscall(__NR_execve, file, argv, envp);
+          return syscall(__NR_execve, file, argv, environ);
 
 	if (!path) path = "/usr/local/bin:/bin:/usr/bin";
 	k = strnlen(file, NAME_MAX+1);
@@ -36,7 +36,7 @@ int execvp(const char *file, char *const argv[], char *const envp[])
 		memcpy(b, p, z-p);
 		b[z-p] = '/';
 		memcpy(b+(z-p)+(z>p), file, k+1);
-		syscall(__NR_execve, b, argv, envp);
+		syscall(__NR_execve, b, argv, environ);
 		switch (errno) {
 		case EACCES:
 			seen_eacces = 1;
